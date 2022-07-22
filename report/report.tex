@@ -314,7 +314,6 @@ Usually the language being used would be decided once a considerable section of 
 
 \section{Decomposition}
 \subsection{Detailed summary of the process including key variables and structures}
-\subsubsection{Processes}
 Each image processing function will behave in the following way:
 \begin{enumerate}
 \item Read an image from disk.
@@ -323,7 +322,9 @@ Each image processing function will behave in the following way:
 \item Repeat from step 2 until all frames are processed.
 \end{enumerate}
 Images are stored on-disk when they are not being used (this saves memory space, at the cost of causing the program to run a bit slower), the fact they are stored on disk also makes it very easy to isolate each stage of data processing. Each `process' will simply read images, process them, and write images. There is no need to manage variables which store image data outside the scope of each processing function.\\\\
-Because the processes being performed by the program can be broken down so easily means performing a bit of decomposition during design will be very helpful and easy to do.
+Because the processes being performed by the program can be broken down so easily means performing a bit of decomposition during design will be very helpful and easy to do. Having the entire program broken up into smaller pieces which solve individual problems will make it much easier to design and implement the project overall.
+
+\subsubsection{Processes}
 
 \paragraph{Validating user input}
 The program will need to take various types of input from the user. This input includes the input and output filepaths, as well as the configuration for the processes which will be performed on the input data.\\\\
@@ -345,7 +346,7 @@ Could be difficult to calculate - but a guess would be good enough, this could b
 \begin{enumerate}
 \item Get output frame count.
 \item Get input resolution.
-\item Calculate average size of a PNG at the input resolution, using ().
+\item Calculate average size of a PNG at the input resolution, using (add description of method above as some kind of formula or something).
 \item Multiply the average size calculated with the number of frames to be extracted.
 \end{enumerate}
 
