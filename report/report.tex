@@ -312,6 +312,12 @@ This diagram provides a logical division of all the components i need to develop
 The implementation of this project will rely heavily on the openCV image processing library for many of the programs features. May also experiment with FFMPEG for the video to frame extraction process to see if its any faster, adding FFMPEG alongside openCV for image frame extraction should not present any problems or need to change other sections of code as it runs as a completely separate process to everything else. It just takes a video file input and produces image file outputs.\\\\
 Usually the language being used would be decided once a considerable section of the design is complete, and therefore the design for a project would not reference specific libraries or functions, but as i am reasonably certain that C++ as the main language utilising mostly the OpenCV library is a very suitable choice, i will write my design with specific reference to this.
 
+\section{Fucking GUIs}
+I think a GUI for this project is pretty pointless, but it is a requirement.\\\\
+One of the easiest potential ways to handle the implementation of a graphical user interface could be to produce vid2photogrammetry as a standalone compiled library (yes i though up a super cool and epic name!) and then create a graphical user interface which includes that library. This means i could create different GUI implementations very easily.\\\\
+It makes a lot of sense to abstract the entire program into a set of functions, one for each data processing stage. Which are then exposed to some other program which handles the GUI, input validation, etc.\\\\
+Easiest plan: Create something i can import into python, then fuck around with pyqt or something for the GUI. pybind11 looks good for this, hopefully i can just write a comfy command line application then create the GUI as a python program which interacts with the existing functions directly. (The hacky way would be to just make python do one big silly os.system call lmao!)
+
 \section{Decomposition}
 \subsection{Detailed summary of the process including key variables and structures}
 Each image processing function will behave in the following way:
