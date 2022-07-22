@@ -335,10 +335,7 @@ To validate filepaths, two things need to be checked:
 \end{itemize}
 Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met.\\\\
 The configuration inputs will need presence checks and range checks.
-\begin{itemize}
-\item Output frame count must be present, and below the number of frames in the input video.
-\item +more add later when done other sections and thought about stuff.
-\end{itemize}
+The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.
 
 \paragraph{Calculating storage space required}
 One feature specifically mentioned by the client is the program telling the user how much storage space is required for the program to run.\\\\
@@ -356,7 +353,7 @@ The user must have control over how many frames are extracted from an input vide
 Videos can be converted into image sequences using a variety of different libraries. OpenCV and FFMPEG are the primary candidates for use in my software. The process of extracting frames using either of these libraries will be pretty similar:
 \begin{enumerate}
 \item Create video stream.
-\item Skip n frames along stream.
+\item Skip n frames along stream. (n must be calculated to ensure the desired number of output frames are created)
 \item Write frame to disk.
 \item Repeat from step 2 until end of stream is reached.
 \end{enumerate}
