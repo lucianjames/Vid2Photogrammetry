@@ -300,7 +300,7 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 \chapter{Design}
 \thispagestyle{fancy}
 
-\section{Overview}
+\section{Overview/structure}
 % Produce a system diagram which identifies the key stages of the solution. Explain and justify the process you have taken breaking down your problem.
 The following system diagram gives an overview of the core components of the project on a high level of abstraction:
 \begin{center}
@@ -336,7 +336,7 @@ To validate filepaths, two things need to be checked:
 \end{itemize}
 Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met. Built-in functions can be used to preformed each of the checks.\\\\
 The configuration inputs will need presence checks and range checks.
-The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.\\\\
+The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.
 
 \paragraph{Calculating storage space required}
 One feature specifically mentioned by the client is the program telling the user how much storage space is required for the program to run.\\\\
@@ -389,6 +389,7 @@ There are two ways i can think of choosing which frames to remove based on how b
 \item Remove frames where the blurryness exceeds some threshold
 \item Remove the worst n\% of frames
 \end{itemize}
+Could easily provide the user with the option to choose between these two.
 
 \paragraph{Image denoising}
 Video files can by quite noisy, especially in low light environments (Due to very short shutter speed, high ISO, and stuff idk im not a photographer). Denoising the images before they are used to produce a 3D scan could help to improve the quality of the textures produced for the 3D scan.\\\\
