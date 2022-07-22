@@ -332,10 +332,11 @@ To validate filepaths, two things need to be checked:
 \begin{itemize}
 \item The file or folder exists
 \item The program has read/write permission (write only required for output folder)
+\item output folder must be empty
 \end{itemize}
-Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met.\\\\
+Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met. Built-in functions can be used to preformed each of the checks.\\\\
 The configuration inputs will need presence checks and range checks.
-The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.
+The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.\\\\
 
 \paragraph{Calculating storage space required}
 One feature specifically mentioned by the client is the program telling the user how much storage space is required for the program to run.\\\\
@@ -369,12 +370,12 @@ OpenCV can resize images very easily as it has built-in functions which can modi
 
 \paragraph{Duplicate image detection/removal}
 Removing images which are duplicate (or very similar) will speed up the photogrammetry process as the photogrammetry software will not need to process images which do not provide any additional usable data to produce the mesh.\\\\
-Scaling the image down + converting to grayscale would likely be a first step.
+Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
 
 \paragraph{Outlier image detection/removal}
 Detecting and removing images which are significantly different to the others could help remove really bad frames which the photogrammetry software would reject (such as finger covering up camera).\\\\
 Detecting these images could maybe be done by analysing the histograms of the images (not sure, no exact plan yet - experimentation required).\\\\
-Scaling the image down + converting to grayscale would likely be a first step.
+Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
 
 \paragraph{Blurry image detection/removal}
 Removing blurry images would help to produce a better quality 3D scan, as blurry images in the dataset result in lower texture and mesh resolution/accuracy.\\\\
@@ -383,11 +384,21 @@ Detecting how blurry an image is can be done using a couple different methods.
 \item Variance of laplacian
 \item Something with fourier transforms
 \end{itemize}
+There are two ways i can think of choosing which frames to remove based on how blurry they are:
+\begin{itemize}
+\item Remove frames where the blurryness exceeds some threshold
+\item Remove the worst n\% of frames
+\end{itemize}
 
 \paragraph{Image denoising}
 Video files can by quite noisy, especially in low light environments (Due to very short shutter speed, high ISO, and stuff idk im not a photographer). Denoising the images before they are used to produce a 3D scan could help to improve the quality of the textures produced for the 3D scan.\\\\
 OpenCV has image denoising functionality.\\\\
 !!!Computational time taken for denoising may not be worth it in the end!!!
+\begin{enumerate}
+\item Read frame from disk into cv::Mat
+\item Perform denoise operation on the cv::Mat
+\item Write the frame back onto the disk
+\end{enumerate}
 
 \subsubsection{Key variables}
 \begin{center}
