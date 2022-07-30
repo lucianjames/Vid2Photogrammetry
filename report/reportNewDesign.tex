@@ -327,7 +327,18 @@ Creating the graphical interface for the program using python will make developm
 \item \textbf{PyInstaller:} pyinstaller can be used to very easily package a python application into a single package, this package can then be run by the end users without them having to install the python interpreter or any other kind of dependency. I will make use of this to ensure that end-users of the program can access the program very easily. Requiring the end user to install python and any required python modules could cause great inconvenience for them.
 \end{itemize}
 \subsection{C++ library structure}
-The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings. Figure \ref{null} shows an overview of the file structure of the C++ library.
+The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings. Figure \ref{fig:libraryStructure} shows an overview of the file structure of the C++ library.
+\begin{figure}[h!]
+	\centering
+	\caption{C++ library structure diagram}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/libraryStructure}
+	\label{fig:libraryStructure}
+\end{figure}\\\\
+There is certainly nothing special about this structure, as the library is pretty small and each piece of functionality can be easily broken up and isolated into different header+source files. The diagram is not a certain and exact definition of how the final structure of the library will look, as I may add additional header and source files to provide extra functionality or avoid duplicate functions across multiple files. It is hard to predict exactly which files will need to exist.\\\\
+Breaking my library up into a set of header and source files will make maintenance and development easier, as the code be separated out based on what it actually does. This separation will make it much easier to search the library for specific functions.
+\subsection{Python bindings}
+The python bindings created from the C++ code need to be easy to use, optimised, and well documented for anybody who may want to create custom scripts.
+
 
 %•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.
 %•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
