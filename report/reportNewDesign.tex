@@ -27,7 +27,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Centre no 36538}
-\lhead{Lucian James - Photogrammetry data cleaner}
+\lhead{Lucian James - vid2photogrammetry}
 \rfoot{Page \thepage}
 
 \begin{document}
@@ -299,6 +299,53 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 
 \chapter{Design}
 \thispagestyle{fancy}
+
+%•Defined in detail the structure of the solution to be developed.
+\section{Structure}
+\subsection{Overall solution structure}
+This program has a reasonably complex structure, this is because I want to ensure easy cross-platform development while still meeting all of the requirements. Figure \ref{fig:structure} lays out the structure of the solution on a very high level of abstraction.
+\begin{figure}[h!]
+	\centering
+	\caption{Structure diagram}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/structure}
+	\label{fig:structure}
+\end{figure}\\\\
+As can be seen, this program will make use of two languages, as well as a few libraries and tools. The following list describes each of these items, and why I plan on using them:
+\begin{itemize}
+\item \textbf{OpenCV:}
+OpenCV is an open source computer vision library, but it contains a great deal of functionality which is useful to very general image processing. OpenCV can be used to extract frames from videos, but also provides many other functions which can be used to enhance the output of the program. OpenCV also supports GPU acceleration using CUDA, which could provide great speed benefits to certain parts of the program.
+\item \textbf{Core library written in C++:}
+The core functionality of the program will be written in C++. The main reason behind this choice of language is the fact I am already reasonably familiar with the language, which will make development quicker and easier. But C++ is also a good choice in terms of speed due to it being a compiled language, and speed will matter as I will be processing a lot of data.
+\item \textbf{C++ command line interface:}
+While the final goal of the program is to provide an easy to use graphical user interface, I will be producing a command line interface to the vid2photogrammetry library which I will use during development to quickly perform tests without having to worry about developing the GUI. A command line interface can also be used as part of shell scripts, meaning there is potential for advanced users to integrate vid2photogrammetry into a pipeline of multiple tools/processes.
+\item \textbf{PyBind11:}
+``pybind11 is a lightweight header-only library that exposes C++ types in Python and vice versa, mainly to create Python bindings of existing C++ code.''. I will make use of pybind11 to create an easy to use python module, which can then be compiled for multiple platforms and used in a cross-platform manner very easily. Creating a python module will make cross-platform GUI development much easier, and will allow advanced users to perform advanced scripting of vid2photogrammetry.
+\item \textbf{Python command line interface:} Similar to the C++ command line interface, but this will exist only for testing purposes. The python command line interface will likely be missing many features compared to the C++ command line interface, as I only plan on making it good enough to test the python module.
+\item \textbf{Python GUI:}
+Creating the graphical interface for the program using python will make development a somewhat smoother process, as I will not have to worry about compiling C++ code which uses some GUI library (Such as Qt) and OpenCV (Setting up the linking for all this stuff on visual studio on windows gets rather frustrating the first time you do it!). Python makes cross-platform development much easier.
+\item \textbf{PyQT:} ``PyQt is a Python binding of the cross-platform GUI toolkit Qt, implemented as a Python plug-in.''. I will make use of PyQt as it should be very much capable of providing the features required to produce a GUI for vid2photogrammetry.
+\item \textbf{PyInstaller:} pyinstaller can be used to very easily package a python application into a single package, this package can then be run by the end users without them having to install the python interpreter or any other kind of dependency. I will make use of this to ensure that end-users of the program can access the program very easily. Requiring the end user to install python and any required python modules could cause great inconvenience for them.
+\end{itemize}
+\subsection{C++ library structure}
+The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings.
+
+%•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.
+%•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
+%•Described, justifying choices made, the usability features to be included in the solution.
+%•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
+%•Identified and justified the test data to be used during the iterative development of the solution.
+%•Identified and justified any further data to be used in the post development phase.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
