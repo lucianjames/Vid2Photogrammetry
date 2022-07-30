@@ -241,7 +241,7 @@ My program will automatically call meshroom for the user if they want it to, whi
 My program will require input data, this can be in the format of both video or sets of images. This input data is then cleaned to make it more suitable for use in photogrammetry processes. It must be validated that the input data is of the accepted formats (a variety of image and video formats, jpg, png, mp4, etc).
 
 \subsection{Procedures and decomposition}
-The core functionality of my program can very easily be broken down into smaller components, this is because the core functionality exists as a set of procedures performed as a pipeline. Each of the following can be completely isolated from one another, then brought together in a main program:
+The core functionality of my program can very easily be broken down into smaller components, this is because the core functionality exists as a set of procedures performed as individual stages. Each of the following can be completely isolated from one another, then brought together in a main program:
 \begin{itemize}
 \item Reading a video file into frames in memory or in a temp file on disk
 \item Image similarity comparison
@@ -254,7 +254,7 @@ The core functionality of my program can very easily be broken down into smaller
 Each of these isolated components can then also be decomposed further to produce a detailed list of functions the program needs to function.
 
 \subsection{Concurrence}
-The main processes will take place in a pipeline, there will not be any concurrent processes aside from the user interface running and displaying information about the progress of the computation and allowing the user to cancel the process.\\\\
+The main processes will take place in a series of stages, there will not be any concurrent processes aside from the user interface running and displaying information about the progress of the computation and allowing the user to cancel the process.\\\\
 Running multiple parts of the pipeline at once would likely not result in any speedup as each concurrent process may take CPU/GPU time from the other(s). Additionally, implementing this concurrence would be very time consuming and complex to do in such a way that it actually provides a significant speedup.
 
 \section{Limitations of proposed solution}
@@ -312,14 +312,15 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 %•Defined in detail the structure of the solution to be developed.
 \section{Structure}
 \subsection{Overall solution structure}
-This program has a reasonably complex structure, this is because I want to ensure easy cross-platform development while still meeting all of the requirements. Figure \ref{fig:overallStructure} lays out the structure of the solution on a very high level of abstraction.
+Figure \ref{fig:overallStructure} lays out the structure of the solution on a very high level of abstraction.
 \begin{figure}[h!]
 	\centering
 	\caption{Structure diagram}
 	\includegraphics[width=0.8\textwidth]{designDiagrams/overallStructure}
 	\label{fig:overallStructure}
 \end{figure}\\\\
-As can be seen, this program will make use of two languages, as well as a few libraries and tools. The following list describes each of these items, and why I plan on using them:
+As can be seen, this program will make use of two languages, as well as a few libraries and tools. One of the main reasons I have decided to structure my program in this way is the fact it allows me to develop the core functionality and GUI as rather isolated stages of development, which I think will be easier. This structure also allows for much easier cross-platform development thanks to the nature of python.\\\\
+The following list explains some of the items featured in figure \ref{fig:overallStructure}.
 \begin{itemize}
 \item \textbf{OpenCV:}
 OpenCV is an open source computer vision library, but it contains a great deal of functionality which is useful to very general image processing. OpenCV can be used to extract frames from videos, but also provides many other functions which can be used to enhance the output of the program. OpenCV also supports GPU acceleration using CUDA, which could provide great speed benefits to certain parts of the program.
@@ -355,10 +356,6 @@ The C++ library will require some extra files to make it possible to compile it 
 	\label{fig:libraryStructurePyBind11}
 \end{figure}\\\\
 
-
-
-
-
 %•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.#
 \section{Decomposition}
 \subsection{Overall process}
@@ -373,9 +370,18 @@ Images are stored on-disk when they are not being used (this saves memory space,
 Because the processes being performed by the program can be broken down so easily means performing a bit of decomposition during design will be very helpful and easy to do. Having the entire program broken up into smaller pieces which solve individual problems will make it much easier to design and implement the project overall.
 \subsection{A more efficient overall process}
 While each stage of data processing happening in isolated stages where images are stored temporarily on disk allows for a very easy to understand design to be created, it does mean that there is much more file input/output taking place than there really needs to be.
-
+A more optimal way of processing the image data would be to:
+\begin{enumerate}
+\item Read frame from video.
+\item Perform \textbf{all} the desired processing (resize, blur detect, etc).
+\item Write the frame to disk.
+\end{enumerate}
+If I write the code in a very modular way, it should not be difficult to build this more optimised method from the code for the less optimal solution (this is because I should create a function for each process which takes a cv::Mat as input and gives a cv::Mat as output, file IO should not take place in the same scope as the image processing.).\\\\
+A drawback to this more optimised process is the fact it would be less flexible, the python bindings would probably end up being reduced to one single entry point binding. This would make the python module more specialised and reduces the opportunities for advanced users to tweak the workflow without compiling any source code.\\\\
+I will have to assess the significance of the slowdown that extra read/write operations cause, and determine whether or not its worth restructuring the library to reduce this slowdown.
 \subsection{Processes}
-This subsection will give an overview of the individual processes which need to be performed by the program. The process of breaking down, listing, and describing these individual bits of core functionality will give me a better idea of where to start, what needs to be made, and a starting point for the creation of the algorithms for each process.
+This subsection will give an overview of the individual processes which need to be performed by the program. The process of breaking down, listing, and describing these individual bits of core functionality will give me a better idea of where to start, what needs to be made, and a starting point for the creation of the algorithms for each process.\\\\
+I make sure to describe why a process needs to be a part of the program, then I describe the steps that need to be taken (on a very high level of abstraction) to perform the process. I also include any other information I think may be relevant when I refer back to this document during development.
 \subsubsection{User input validation}
 The program will need to take various types of input from the user. This input includes the input and output filepaths, as well as the configuration for the processes which will be performed on the input data.\\\\
 To validate filepaths, two things need to be checked:
@@ -438,18 +444,28 @@ Could easily provide the user with the option to choose between these two.
 \subsubsection{Image denoising}
 Video files can by quite noisy, especially in low light environments (Due to very short shutter speed, high ISO, and stuff idk im not a photographer). Denoising the images before they are used to produce a 3D scan could help to improve the quality of the textures produced for the 3D scan.\\\\
 OpenCV has image denoising functionality.\\\\
-!!!Computational time taken for denoising may not be worth it in the end!!!
 \begin{enumerate}
 \item Read frame from disk into cv::Mat
 \item Perform denoise operation on the cv::Mat
 \item Write the frame back onto the disk
 \end{enumerate}
+\textbf{Computational time taken for denoising may not be worth it in the end - will be a rather experimental feature.}
 
 %•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
 \section{Algorithms}
+This section describes the algorithms the overall solution compromises of, how they work, and how the combine into a functional program. The algorithms described here may not be the optimal solution, and I will likely perform a pass of optimisation over the whole program once it meets all of the clients requirements. This optimisation pass will likely end up modifying exactly how some of the algorithms described here work.
+\subsection{Overall vid2photogrammetry algorithm}
+On a high level of abstraction, the vid2photogrammetry program is reasonably simple. The simplicity of the program comes from the fact it only performs a linear process; Input goes in, a few stages of processing happens, and then an output comes out. There are no complex simultaneous processes.
+Figure \ref{fig:null} gives an overview of how vid2photogrammetry will function, on a high level of abstraction.
+
+
+\subsection{Individual image processing algorithms}
+
 
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
+\subsection{Graphical user interface}
+\subsection{Scripting via python module}
 
 %•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
 \section{Key variables, structures, and classes}
