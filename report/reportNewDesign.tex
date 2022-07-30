@@ -337,7 +337,14 @@ The way I choose to structure the vid2photogrammetry C++ library is important, a
 There is certainly nothing special about this structure, as the library is pretty small and each piece of functionality can be easily broken up and isolated into different header+source files. The diagram is not a certain and exact definition of how the final structure of the library will look, as I may add additional header and source files to provide extra functionality or avoid duplicate functions across multiple files. It is hard to predict exactly which files will need to exist.\\\\
 Breaking my library up into a set of header and source files will make maintenance and development easier, as the code be separated out based on what it actually does. This separation will make it much easier to search the library for specific functions.
 \subsection{Python bindings}
-The python bindings created from the C++ code need to be easy to use, optimised, and well documented for anybody who may want to create custom scripts.
+The python bindings created from the C++ code need to be easy to use, optimised, and well documented for anybody who may want to create custom scripts. This should not be too difficult to achieve, all I need to do is name functions appropriately and write documentation for each of those functions. In terms of optimisation I just need to be careful that I keep all the large image data completely inside the C++ functions, passing lots of data between python and the C++ module could potentially cause some slowdown.
+The C++ library will require some extra files to make it possible to compile it into a python module, with those extra files the library would look something like figure \ref{fig:libraryStructurePyBind11}
+\begin{figure}[h!]
+	\centering
+	\caption{C++ library structure diagram (with pybind11)}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/libraryStructurePyBind11}
+	\label{fig:libraryStructurePyBind11}
+\end{figure}\\\\
 
 
 %•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.
