@@ -27,7 +27,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Centre no 36538}
-\lhead{Lucian James - Photogrammetry data cleaner}
+\lhead{Lucian James - vid2photogrammetry}
 \rfoot{Page \thepage}
 
 \begin{document}
@@ -297,29 +297,71 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 \end{itemize}
 
 
+
+
+
+
+
+
+
+
+
 \chapter{Design}
 \thispagestyle{fancy}
 
-\section{Overview/structure}
-% Produce a system diagram which identifies the key stages of the solution. Explain and justify the process you have taken breaking down your problem.
-The following system diagram gives an overview of the core components of the project on a high level of abstraction:
-\begin{center}
-\makebox[\textwidth]{\includegraphics[width=\textwidth]{systemDiagram}}
-\end{center}
-This diagram is broken down into the three major aspects of the program that need to be considered, then the sub-components of each of these is also listed.\\\\
-This diagram does not provide any insight into how the program should be implemented, but it does give a reasonably thorough list of the core components required to build up the required functionality of the program.\\\\
-This diagram provides a logical division of all the components i need to develop, thinking ahead using this simply structured diagram is very helpful as it is a great aid during both design and implementation.\\\\
-The implementation of this project will rely heavily on the openCV image processing library for many of the programs features. May also experiment with FFMPEG for the video to frame extraction process to see if its any faster, adding FFMPEG alongside openCV for image frame extraction should not present any problems or need to change other sections of code as it runs as a completely separate process to everything else. It just takes a video file input and produces image file outputs.\\\\
-Usually the language being used would be decided once a considerable section of the design is complete, and therefore the design for a project would not reference specific libraries or functions, but as i am reasonably certain that C++ as the main language utilising mostly the OpenCV library is a very suitable choice, i will write my design with specific reference to this.
+%•Defined in detail the structure of the solution to be developed.
+\section{Structure}
+\subsection{Overall solution structure}
+This program has a reasonably complex structure, this is because I want to ensure easy cross-platform development while still meeting all of the requirements. Figure \ref{fig:overallStructure} lays out the structure of the solution on a very high level of abstraction.
+\begin{figure}[h!]
+	\centering
+	\caption{Structure diagram}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/overallStructure}
+	\label{fig:overallStructure}
+\end{figure}\\\\
+As can be seen, this program will make use of two languages, as well as a few libraries and tools. The following list describes each of these items, and why I plan on using them:
+\begin{itemize}
+\item \textbf{OpenCV:}
+OpenCV is an open source computer vision library, but it contains a great deal of functionality which is useful to very general image processing. OpenCV can be used to extract frames from videos, but also provides many other functions which can be used to enhance the output of the program. OpenCV also supports GPU acceleration using CUDA, which could provide great speed benefits to certain parts of the program.
+\item \textbf{Core library written in C++:}
+The core functionality of the program will be written in C++. The main reason behind this choice of language is the fact I am already reasonably familiar with the language, which will make development quicker and easier. But C++ is also a good choice in terms of speed due to it being a compiled language, and speed will matter as I will be processing a lot of data.
+\item \textbf{C++ command line interface:}
+While the final goal of the program is to provide an easy to use graphical user interface, I will be producing a command line interface to the vid2photogrammetry library which I will use during development to quickly perform tests without having to worry about developing the GUI. A command line interface can also be used as part of shell scripts, meaning there is potential for advanced users to integrate vid2photogrammetry into a pipeline of multiple tools/processes.
+\item \textbf{PyBind11:}
+``pybind11 is a lightweight header-only library that exposes C++ types in Python and vice versa, mainly to create Python bindings of existing C++ code.''. I will make use of pybind11 to create an easy to use python module, which can then be compiled for multiple platforms and used in a cross-platform manner very easily. Creating a python module will make cross-platform GUI development much easier, and will allow advanced users to perform advanced scripting of vid2photogrammetry.
+\item \textbf{Python command line interface:} Similar to the C++ command line interface, but this will exist only for testing purposes. The python command line interface will likely be missing many features compared to the C++ command line interface, as I only plan on making it good enough to test the python module.
+\item \textbf{Python GUI:}
+Creating the graphical interface for the program using python will make development a somewhat smoother process, as I will not have to worry about compiling C++ code which uses some GUI library (Such as Qt) and OpenCV (Setting up the linking for all this stuff on visual studio on windows gets rather frustrating the first time you do it!). Python makes cross-platform development much easier.
+\item \textbf{PyQT:} ``PyQt is a Python binding of the cross-platform GUI toolkit Qt, implemented as a Python plug-in.''. I will make use of PyQt as it should be very much capable of providing the features required to produce a GUI for vid2photogrammetry.
+\item \textbf{PyInstaller:} pyinstaller can be used to very easily package a python application into a single package, this package can then be run by the end users without them having to install the python interpreter or any other kind of dependency. I will make use of this to ensure that end-users of the program can access the program very easily. Requiring the end user to install python and any required python modules could cause great inconvenience for them.
+\end{itemize}
+\subsection{C++ library structure}
+The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings. Figure \ref{fig:libraryStructure} shows an overview of the file structure of the C++ library.
+\begin{figure}[h!]
+	\centering
+	\caption{C++ library structure diagram}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/libraryStructure}
+	\label{fig:libraryStructure}
+\end{figure}\\\\
+There is certainly nothing special about this structure, as the library is pretty small and each piece of functionality can be easily broken up and isolated into different header+source files. The diagram is not a certain and exact definition of how the final structure of the library will look, as I may add additional header and source files to provide extra functionality or avoid duplicate functions across multiple files. It is hard to predict exactly which files will need to exist.\\\\
+Breaking my library up into a set of header and source files will make maintenance and development easier, as the code be separated out based on what it actually does. This separation will make it much easier to search the library for specific functions.
+\subsection{Python bindings}
+The python bindings created from the C++ code need to be easy to use, optimised, and well documented for anybody who may want to create custom scripts. This should not be too difficult to achieve, all I need to do is name functions appropriately and write documentation for each of those functions. In terms of optimisation I just need to be careful that I keep all the large image data completely inside the C++ functions, passing lots of data between python and the C++ module could potentially cause some slowdown.
+The C++ library will require some extra files to make it possible to compile it into a python module, with those extra files the library would look something like figure \ref{fig:libraryStructurePyBind11}
+\begin{figure}[h!]
+	\centering
+	\caption{C++ library structure diagram (with pybind11)}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/libraryStructurePyBind11}
+	\label{fig:libraryStructurePyBind11}
+\end{figure}\\\\
 
-\section{Fucking GUIs}
-I think a GUI for this project is pretty pointless, but it is a requirement.\\\\
-One of the easiest potential ways to handle the implementation of a graphical user interface could be to produce vid2photogrammetry as a standalone compiled library (yes i though up a super cool and epic name!) and then create a graphical user interface which includes that library. This means i could create different GUI implementations very easily.\\\\
-It makes a lot of sense to abstract the entire program into a set of functions, one for each data processing stage. Which are then exposed to some other program which handles the GUI, input validation, etc.\\\\
-Easiest plan: Create something i can import into python, then fuck around with pyqt or something for the GUI. pybind11 looks good for this, hopefully i can just write a comfy command line application then create the GUI as a python program which interacts with the existing functions directly. (The hacky way would be to just make python do one big silly os.system call lmao!)
 
+
+
+
+%•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.#
 \section{Decomposition}
-\subsection{Detailed summary of the process including key variables and structures}
+\subsection{Overall process}
 Each image processing function will behave in the following way:
 \begin{enumerate}
 \item Read an image from disk.
@@ -329,10 +371,12 @@ Each image processing function will behave in the following way:
 \end{enumerate}
 Images are stored on-disk when they are not being used (this saves memory space, at the cost of causing the program to run a bit slower), the fact they are stored on disk also makes it very easy to isolate each stage of data processing. Each `process' will simply read images, process them, and write images. There is no need to manage variables which store image data outside the scope of each processing function.\\\\
 Because the processes being performed by the program can be broken down so easily means performing a bit of decomposition during design will be very helpful and easy to do. Having the entire program broken up into smaller pieces which solve individual problems will make it much easier to design and implement the project overall.
+\subsection{A more efficient overall process}
+While each stage of data processing happening in isolated stages where images are stored temporarily on disk allows for a very easy to understand design to be created, it does mean that there is much more file input/output taking place than there really needs to be.
 
-\subsubsection{Processes}
-
-\paragraph{Validating user input}
+\subsection{Processes}
+This subsection will give an overview of the individual processes which need to be performed by the program. The process of breaking down, listing, and describing these individual bits of core functionality will give me a better idea of where to start, what needs to be made, and a starting point for the creation of the algorithms for each process.
+\subsubsection{User input validation}
 The program will need to take various types of input from the user. This input includes the input and output filepaths, as well as the configuration for the processes which will be performed on the input data.\\\\
 To validate filepaths, two things need to be checked:
 \begin{itemize}
@@ -340,11 +384,11 @@ To validate filepaths, two things need to be checked:
 \item The program has read/write permission (write only required for output folder)
 \item output folder must be empty
 \end{itemize}
-Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met. Built-in functions can be used to preformed each of the checks.\\\\
+Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met. Built-in functions can be used to perform each of the checks.\\\\
 The configuration inputs will need presence checks and range checks.
-The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.
-
-\paragraph{Calculating storage space required}
+The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.\\\\
+Input validation should be implemented in both the C++ library and the terminal/graphical user interfaces for maximum resilience against malformed input.
+\subsubsection{Calculating storage space required}
 One feature specifically mentioned by the client is the program telling the user how much storage space is required for the program to run.\\\\
 Could be difficult to calculate - but a guess would be good enough, this could be done by calculating the average filesize of a png at the output resolution, and multiplying it by the number of frames the program is going to output.
 \begin{enumerate}
@@ -353,8 +397,7 @@ Could be difficult to calculate - but a guess would be good enough, this could b
 \item Calculate average size of a PNG at the input resolution, using (add description of method above as some kind of formula or something).
 \item Multiply the average size calculated with the number of frames to be extracted.
 \end{enumerate}
-
-\paragraph{Video to image sequence conversion}
+\subsubsection{Video to image sequence conversion}
 The primary goal of this program is to convert input images into image sequences which are suitable for use in photogrammetry software.
 The user must have control over how many frames are extracted from an input video, extracting every single frame would result in a number of frames which greatly exceeds the number required for photogrammetry, and would not be usable inside the photogrammetry software.\\\\
 Videos can be converted into image sequences using a variety of different libraries. OpenCV and FFMPEG are the primary candidates for use in my software. The process of extracting frames using either of these libraries will be pretty similar:
@@ -364,8 +407,7 @@ Videos can be converted into image sequences using a variety of different librar
 \item Write frame to disk.
 \item Repeat from step 2 until end of stream is reached.
 \end{enumerate}
-
-\paragraph{Image resizing}
+\subsubsection{Image resizing}
 Image resolution has a great impact on the time the process of photogrammetry takes. While most photogrammetry software does have image resizing as a built in function, including it in my software will still be useful as it may provide some convenience.\\\\
 OpenCV can resize images very easily as it has built-in functions which can modify a cv::Mat. The process can be broken down into very simple steps:
 \begin{enumerate}
@@ -373,17 +415,14 @@ OpenCV can resize images very easily as it has built-in functions which can modi
 \item Perform built-in resize function on the cv::Mat.
 \item Write cv::Mat back onto the disk.
 \end{enumerate}
-
-\paragraph{Duplicate image detection/removal}
+\subsubsection{Duplicate image detection/removal}
 Removing images which are duplicate (or very similar) will speed up the photogrammetry process as the photogrammetry software will not need to process images which do not provide any additional usable data to produce the mesh.\\\\
 Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
-
-\paragraph{Outlier image detection/removal}
+\subsubsection{Outlier image detection/removal}
 Detecting and removing images which are significantly different to the others could help remove really bad frames which the photogrammetry software would reject (such as finger covering up camera).\\\\
 Detecting these images could maybe be done by analysing the histograms of the images (not sure, no exact plan yet - experimentation required).\\\\
 Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
-
-\paragraph{Blurry image detection/removal}
+\subsubsection{Blurry image detection/removal}
 Removing blurry images would help to produce a better quality 3D scan, as blurry images in the dataset result in lower texture and mesh resolution/accuracy.\\\\
 Detecting how blurry an image is can be done using a couple different methods.
 \begin{itemize}
@@ -396,8 +435,7 @@ There are two ways i can think of choosing which frames to remove based on how b
 \item Remove the worst n\% of frames
 \end{itemize}
 Could easily provide the user with the option to choose between these two.
-
-\paragraph{Image denoising}
+\subsubsection{Image denoising}
 Video files can by quite noisy, especially in low light environments (Due to very short shutter speed, high ISO, and stuff idk im not a photographer). Denoising the images before they are used to produce a 3D scan could help to improve the quality of the textures produced for the 3D scan.\\\\
 OpenCV has image denoising functionality.\\\\
 !!!Computational time taken for denoising may not be worth it in the end!!!
@@ -407,51 +445,32 @@ OpenCV has image denoising functionality.\\\\
 \item Write the frame back onto the disk
 \end{enumerate}
 
-\subsubsection{Key variables}
-\begin{center}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|p{5cm}|p{5cm}|p{10cm}|p{10cm}|}
-\hline
-Name & Type & Description & Validation \\
-\hline \hline
-inputVideoPath & std::string & Stores the path to the input video (or image sequence) file(s) & Presence check, format check. \\
-\hline
-inputVideoCapture & cv::VideoCapture & An OpenCV video capture object used to load frames from a video stored on the disk & The .isOpened() method can be used to verify a video has been loaded. \\
-\hline
-loadedFrame & cv::Mat & Frames are loaded into this variable temporarily during the loading process & Must check every time a frame is loaded that it loaded properly (check loadedFrame is not NULL, presence check.). \\
-\hline
-framePaths & std::vector$<$std::string$>$ & Filepaths to frames which have been loaded and then written into the output directory.  & Each filepath needs to be valid. Presence c\item Images extracted from video and written to disk.heck, format check. \\
-\hline
-First & Second & Third & Fourth \\
-\hline
-\end{tabular}
-}
-\end{center}
-
-\section{Test plan}
-% Create test table, identify appropriate data that you will be using to test the functionality of yur program.\\\\
-% You need to justify how the algorithms you have produced form a complete solution to your program.\\\\
-% You need to justify the test data that you plan to use during development.
-
+%•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
 \section{Algorithms}
-% Pseudocode/flow diagrams\\\\
-% Justify how the algorithms you have produced form a complete solution to your problem.
 
-\subsection{Video to image overall pipeline}
-\newpage
-\begin{center}
-\makebox[\textwidth]{\includegraphics[height=\textheight]{flowchart1}}
-\end{center}
-\subsection{User input validation}
-\subsection{Video to image sequence conversion}
-\subsection{Image resizing}
-\subsection{Duplicate image detection/removal}
-\subsection{Outlier image detection/removal}
-\subsection{Blurry image removal}
-\subsection{Image denoising}
+%•Described, justifying choices made, the usability features to be included in the solution.
+\section{Usability features}
 
-\section{Sign off the proposal}
-% Your user/client needs to see your screen designs and ust agree with them.\\\\
-% This meeting must be documented and should be signed and dated.
+%•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
+\section{Key variables, structures, and classes}
+
+%•Identified and justified the test data to be used during the iterative development of the solution.
+%•Identified and justified any further data to be used in the post development phase.
+\section{Test data}
+\subsection{During development}
+\subsection{Post development}
+
+\section{Optimisation}
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
