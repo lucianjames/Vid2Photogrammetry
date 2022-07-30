@@ -297,6 +297,15 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 \end{itemize}
 
 
+
+
+
+
+
+
+
+
+
 \chapter{Design}
 \thispagestyle{fancy}
 
@@ -346,8 +355,95 @@ The C++ library will require some extra files to make it possible to compile it 
 	\label{fig:libraryStructurePyBind11}
 \end{figure}\\\\
 
+
+
+
+
 %•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.#
 \section{Decomposition}
+\subsection{Overall process}
+Each image processing function will behave in the following way:
+\begin{enumerate}
+\item Read an image from disk.
+\item Process the frame.
+\item Write the frame back to disk.
+\item Repeat from step 2 until all frames are processed.
+\end{enumerate}
+Images are stored on-disk when they are not being used (this saves memory space, at the cost of causing the program to run a bit slower), the fact they are stored on disk also makes it very easy to isolate each stage of data processing. Each `process' will simply read images, process them, and write images. There is no need to manage variables which store image data outside the scope of each processing function.\\\\
+Because the processes being performed by the program can be broken down so easily means performing a bit of decomposition during design will be very helpful and easy to do. Having the entire program broken up into smaller pieces which solve individual problems will make it much easier to design and implement the project overall.
+\subsection{A more efficient overall process}
+While each stage of data processing happening in isolated stages where images are stored temporarily on disk allows for a very easy to understand design to be created, it does mean that there is much more file input/output taking place than there really needs to be.
+
+\subsection{Processes}
+This subsection will give an overview of the individual processes which need to be performed by the program. The process of breaking down, listing, and describing these individual bits of core functionality will give me a better idea of where to start, what needs to be made, and a starting point for the creation of the algorithms for each process.
+\subsubsection{User input validation}
+The program will need to take various types of input from the user. This input includes the input and output filepaths, as well as the configuration for the processes which will be performed on the input data.\\\\
+To validate filepaths, two things need to be checked:
+\begin{itemize}
+\item The file or folder exists
+\item The program has read/write permission (write only required for output folder)
+\item output folder must be empty
+\end{itemize}
+Both of these can be implemented in a simple `if' statement to ensure that the data processing is only attempted if these two requirements are met. Built-in functions can be used to perform each of the checks.\\\\
+The configuration inputs will need presence checks and range checks.
+The presence of configuration will be ensured by creating default values for every setting, although it would be best to be on the safe side and still include validation on any variables taken from GUI input elements.\\\\
+Input validation should be implemented in both the C++ library and the terminal/graphical user interfaces for maximum resilience against malformed input.
+\subsubsection{Calculating storage space required}
+One feature specifically mentioned by the client is the program telling the user how much storage space is required for the program to run.\\\\
+Could be difficult to calculate - but a guess would be good enough, this could be done by calculating the average filesize of a png at the output resolution, and multiplying it by the number of frames the program is going to output.
+\begin{enumerate}
+\item Get output frame count.
+\item Get input resolution.
+\item Calculate average size of a PNG at the input resolution, using (add description of method above as some kind of formula or something).
+\item Multiply the average size calculated with the number of frames to be extracted.
+\end{enumerate}
+\subsubsection{Video to image sequence conversion}
+The primary goal of this program is to convert input images into image sequences which are suitable for use in photogrammetry software.
+The user must have control over how many frames are extracted from an input video, extracting every single frame would result in a number of frames which greatly exceeds the number required for photogrammetry, and would not be usable inside the photogrammetry software.\\\\
+Videos can be converted into image sequences using a variety of different libraries. OpenCV and FFMPEG are the primary candidates for use in my software. The process of extracting frames using either of these libraries will be pretty similar:
+\begin{enumerate}
+\item Create video stream.
+\item Skip n frames along stream. (n must be calculated to ensure the desired number of output frames are created)
+\item Write frame to disk.
+\item Repeat from step 2 until end of stream is reached.
+\end{enumerate}
+\subsubsection{Image resizing}
+Image resolution has a great impact on the time the process of photogrammetry takes. While most photogrammetry software does have image resizing as a built in function, including it in my software will still be useful as it may provide some convenience.\\\\
+OpenCV can resize images very easily as it has built-in functions which can modify a cv::Mat. The process can be broken down into very simple steps:
+\begin{enumerate}
+\item Load image from disk into cv::Mat.
+\item Perform built-in resize function on the cv::Mat.
+\item Write cv::Mat back onto the disk.
+\end{enumerate}
+\subsubsection{Duplicate image detection/removal}
+Removing images which are duplicate (or very similar) will speed up the photogrammetry process as the photogrammetry software will not need to process images which do not provide any additional usable data to produce the mesh.\\\\
+Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
+\subsubsection{Outlier image detection/removal}
+Detecting and removing images which are significantly different to the others could help remove really bad frames which the photogrammetry software would reject (such as finger covering up camera).\\\\
+Detecting these images could maybe be done by analysing the histograms of the images (not sure, no exact plan yet - experimentation required).\\\\
+Scaling the image down + converting to grayscale would likely be a first step to reduce the computational complexity of further steps. Potentially could use general-purpose autoencoders for the next steps. 
+\subsubsection{Blurry image detection/removal}
+Removing blurry images would help to produce a better quality 3D scan, as blurry images in the dataset result in lower texture and mesh resolution/accuracy.\\\\
+Detecting how blurry an image is can be done using a couple different methods.
+\begin{itemize}
+\item Variance of laplacian
+\item Something with fourier transforms
+\end{itemize}
+There are two ways i can think of choosing which frames to remove based on how blurry they are:
+\begin{itemize}
+\item Remove frames where the blurryness exceeds some threshold
+\item Remove the worst n\% of frames
+\end{itemize}
+Could easily provide the user with the option to choose between these two.
+\subsubsection{Image denoising}
+Video files can by quite noisy, especially in low light environments (Due to very short shutter speed, high ISO, and stuff idk im not a photographer). Denoising the images before they are used to produce a 3D scan could help to improve the quality of the textures produced for the 3D scan.\\\\
+OpenCV has image denoising functionality.\\\\
+!!!Computational time taken for denoising may not be worth it in the end!!!
+\begin{enumerate}
+\item Read frame from disk into cv::Mat
+\item Perform denoise operation on the cv::Mat
+\item Write the frame back onto the disk
+\end{enumerate}
 
 %•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
 \section{Algorithms}
@@ -364,6 +460,7 @@ The C++ library will require some extra files to make it possible to compile it 
 \subsection{During development}
 \subsection{Post development}
 
+\section{Optimisation}
 
 
 
