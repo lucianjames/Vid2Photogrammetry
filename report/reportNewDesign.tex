@@ -303,12 +303,12 @@ MSE = \frac{1}{n} \sum_{w,h,c}(y_{w,h,c}-\hat{y}_{w,h,c})^2
 %•Defined in detail the structure of the solution to be developed.
 \section{Structure}
 \subsection{Overall solution structure}
-This program has a reasonably complex structure, this is because I want to ensure easy cross-platform development while still meeting all of the requirements. Figure \ref{fig:structure} lays out the structure of the solution on a very high level of abstraction.
+This program has a reasonably complex structure, this is because I want to ensure easy cross-platform development while still meeting all of the requirements. Figure \ref{fig:overallStructure} lays out the structure of the solution on a very high level of abstraction.
 \begin{figure}[h!]
 	\centering
 	\caption{Structure diagram}
-	\includegraphics[width=0.8\textwidth]{designDiagrams/structure}
-	\label{fig:structure}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/overallStructure}
+	\label{fig:overallStructure}
 \end{figure}\\\\
 As can be seen, this program will make use of two languages, as well as a few libraries and tools. The following list describes each of these items, and why I plan on using them:
 \begin{itemize}
@@ -327,7 +327,7 @@ Creating the graphical interface for the program using python will make developm
 \item \textbf{PyInstaller:} pyinstaller can be used to very easily package a python application into a single package, this package can then be run by the end users without them having to install the python interpreter or any other kind of dependency. I will make use of this to ensure that end-users of the program can access the program very easily. Requiring the end user to install python and any required python modules could cause great inconvenience for them.
 \end{itemize}
 \subsection{C++ library structure}
-The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings.
+The way I choose to structure the vid2photogrammetry C++ library is important, as I need to ensure it can be used, developed, and maintained very easily. The use of pybind11 also needs to be considered, as the library must be structured in such a way that I can easily create the python bindings. Figure \ref{null} shows an overview of the file structure of the C++ library.
 
 %•Broken the problem down systematically into a series of smaller problems suitable for computational solutions, explaining and justifying the process.
 %•Described the solution fully using appropriate and accurate algorithms justifying how these algorithms form a complete solution to the problem.
