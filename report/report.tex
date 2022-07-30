@@ -456,11 +456,32 @@ OpenCV has image denoising functionality.\\\\
 This section describes the algorithms the overall solution compromises of, how they work, and how the combine into a functional program. The algorithms described here may not be the optimal solution, and I will likely perform a pass of optimisation over the whole program once it meets all of the clients requirements. This optimisation pass will likely end up modifying exactly how some of the algorithms described here work.
 \subsection{Overall vid2photogrammetry algorithm}
 On a high level of abstraction, the vid2photogrammetry program is reasonably simple. The simplicity of the program comes from the fact it only performs a linear process; Input goes in, a few stages of processing happens, and then an output comes out. There are no complex simultaneous processes.
-Figure \ref{fig:null} gives an overview of how vid2photogrammetry will function, on a high level of abstraction.
+Figure \ref{fig:overallAlgorithm} gives an overview of how vid2photogrammetry will function, on a high level of abstraction.
+\begin{figure}[h!]
+	\centering
+	\caption{Overall vid2photogrammetry algorithm}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/overallAlgorithm}
+	\label{fig:overallAlgorithm}
+\end{figure}
+\newpage
+This algorithm gives an idea of what the program needs to do, but does not describe at all how to do it. Figure \ref{fig:detailedOverallAlgorithm} provides a more detailed overview of how the program will operate, but still lacks detail which will be described later in the design document.
+\begin{figure}
+	\centering
+	\caption{A more detailed vid2photogrammetry algorithm}
+	\includegraphics[height=0.6\paperheight]{designDiagrams/detailedOverallAlgorithm}
+	\label{fig:detailedOverallAlgorithm}
+\end{figure}\\\\
+\newpage
+\subsection{Individual algorithms}
+\subsubsection{Fetching/validating input}
+Fetching user input will be handled by the interface program, but validation must also take place inside the vid2photogrammetry core library.
 
-
-\subsection{Individual image processing algorithms}
-
+\subsubsection{Extract images from video}
+\subsubsection{Resize extracted images}
+\subsubsection{Detect/remove blurry images}
+\subsubsection{Detect/remove duplicate(/near duplicate) images}
+\subsubsection{Detect/remove outlier images}
+\subsubsection{Denoise images}
 
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
