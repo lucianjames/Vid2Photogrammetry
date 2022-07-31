@@ -384,7 +384,7 @@ This subsection will give an overview of the individual processes which need to 
 I make sure to describe why a process needs to be a part of the program, then I describe the steps that need to be taken (on a very high level of abstraction) to perform the process. I also include any other information I think may be relevant when I refer back to this document during development.
 \subsubsection{User input validation}
 The program will need to take various types of input from the user. This input includes the input and output filepaths, as well as the configuration for the processes which will be performed on the input data.\\\\
-To validate filepaths, two things need to be checked:
+To validate filepaths, the following needs to be checked:
 \begin{itemize}
 \item The file or folder exists
 \item The program has read/write permission (write only required for output folder)
@@ -474,9 +474,28 @@ This algorithm gives an idea of what the program needs to do, but does not descr
 \newpage
 \subsection{Individual algorithms}
 \subsubsection{Fetching/validating input}
-Fetching user input will be handled by the interface program, but validation must also take place inside the vid2photogrammetry core library.
-
+Fetching user input will be handled by the interface program, but validation must also take place inside the vid2photogrammetry core library to minimise the potential of unexpected errors occurring.
+\begin{figure}[h!]
+	\centering
+	\caption{Input validation}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/fetchingValidatingInput}
+	\label{fig:fetchingValidatingInput}
+\end{figure}\\\\
+The exact details of which variables need to be validated, and how exactly they need to be validated has not been included in figure \ref{fig:fetchingValidatingInput} (at least not yet), this is because the diagram is meant to give a general overview of how input will be checked. Input will be checked by the C++ vid2photogrammetry library, but including input validation inside the GUI (or command line interface) will make it easier to notify the user that their input is missing or malformed.\\\\
+To validate filepaths, the following must be checked:
+\begin{itemize}
+\item The file or folder exists
+\item The program has read/write permission (write only required for output folder)
+\item output folder must be empty
+\end{itemize}
 \subsubsection{Extract images from video}
+\begin{figure}[h!]
+	\centering
+	\caption{Frame extraction to disk}
+	\includegraphics[width=0.4\textwidth]{designDiagrams/extractFrames}
+	\label{fig:extractFrames}
+\end{figure}
+\newpage
 \subsubsection{Resize extracted images}
 \subsubsection{Detect/remove blurry images}
 \subsubsection{Detect/remove duplicate(/near duplicate) images}
