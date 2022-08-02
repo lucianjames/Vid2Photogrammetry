@@ -464,7 +464,8 @@ Figure \ref{fig:overallAlgorithm} gives an overview of how vid2photogrammetry wi
 	\label{fig:overallAlgorithm}
 \end{figure}
 \newpage
-This algorithm gives an idea of what the program needs to do, but does not describe at all how to do it. Figure \ref{fig:detailedOverallAlgorithm} provides a more detailed overview of how the program will operate, but still lacks detail which will be described later in the design document.
+This algorithm gives an idea of what the program needs to do, but does not describe at all how to do it. Figure \ref{fig:detailedOverallAlgorithm} provides a more detailed overview of how the program will operate.\\\\
+Figure \ref{fig:overallAlgorithm} roughly show show the individual algorithms in section \ref{indivAlgorithms} work together to produce a functional product.
 \begin{figure}
 	\centering
 	\caption{A more detailed vid2photogrammetry algorithm}
@@ -472,7 +473,7 @@ This algorithm gives an idea of what the program needs to do, but does not descr
 	\label{fig:detailedOverallAlgorithm}
 \end{figure}\\\\
 \newpage
-\subsection{Individual algorithms}
+\subsection{Individual algorithms}\label{indivAlgorithms}
 \subsubsection{Fetching/validating input}
 Fetching user input will be handled by the interface program, but validation must also take place inside the vid2photogrammetry core library to minimise the potential of unexpected errors occurring.
 \begin{figure}[h!]
@@ -523,8 +524,6 @@ Just like above, wacky stuff required.
 	\includegraphics[width=0.8\textwidth]{designDiagrams/denoiseImages}
 	\label{fig:denoiseImages}
 \end{figure}
-\subsection{How do they all combine?}
-
 
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
