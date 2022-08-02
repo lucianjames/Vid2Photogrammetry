@@ -497,25 +497,53 @@ To validate filepaths, the following must be checked:
 \end{figure}
 \newpage
 \subsubsection{Resize extracted images}
+\begin{figure}[h!]
+	\centering
+	\caption{Resize extracted frames stored on disk}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/resizeImages}
+	\label{fig:resizeImages}
+\end{figure}
 \subsubsection{Detect/remove blurry images}
+The algorithm for quantifying image blurriness will have to be experimented with during development. Computing the ``variance of the laplacian'' appears like it could work pretty well based on my research, and shouldnt be too hard to implement using openCV.
+\begin{figure}
+	\centering
+	\caption{Blurry frame detection}
+	\includegraphics[width=0.7\textwidth]{designDiagrams/blurDetection}
+	\label{fig:blurDetection}
+\end{figure}
+\newpage
 \subsubsection{Detect/remove duplicate(/near duplicate) images}
+Something something resize the image really small and do something wacky. There are a couple ways i can think of doing this and they probably wont be easy.
 \subsubsection{Detect/remove outlier images}
+Just like above, wacky stuff required.
 \subsubsection{Denoise images}
-
+\begin{figure}[h!]
+	\centering
+	\caption{Denoise extracted frames stored on disk}
+	\includegraphics[width=0.8\textwidth]{designDiagrams/denoiseImages}
+	\label{fig:denoiseImages}
+\end{figure}
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
 \subsection{Graphical user interface}
 \subsection{Scripting via python module}
-
 %•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
 \section{Key variables, structures, and classes}
-
 %•Identified and justified the test data to be used during the iterative development of the solution.
 %•Identified and justified any further data to be used in the post development phase.
 \section{Test data}
 \subsection{During development}
-\subsection{Post development}
+During early development, almost any video will work to test basic functionality. But one feature of test data which will make my life a lot easier will be baking frame/timestamp metadata into each frame of a video. This will allow me to see exactly which frames are being extracted, which frames are being deleted, and all that kind of stuff. Figure \ref{fig:doggy} shows an example of this metadata being present in the actual frames of a video.
+\begin{figure}[h!]
+	\centering
+	\caption{Burnt metadata example (not photogrammetry capture data)}
+	\includegraphics[width=0.5\textwidth]{designDiagrams/metadataExample}
+	\label{fig:doggy}
+\end{figure}
+\newpage
 
+\subsection{Post development}
+Post-development test data will not include debugging features such as burnt-in frame/timestamp metadata, and will focus much more on experimenting with how the program settings can be optimised to produce the best output. The goal of post-development testing will be to figure out how to record optimal video for photogrammetry, and how to optimise it even more by tweaking the vid2photogrammetry settings.
 \section{Optimisation}
 
 
