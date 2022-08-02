@@ -523,12 +523,39 @@ Just like above, wacky stuff required.
 	\includegraphics[width=0.8\textwidth]{designDiagrams/denoiseImages}
 	\label{fig:denoiseImages}
 \end{figure}
+\subsection{How do they all combine?}
+
+
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
 \subsection{Graphical user interface}
+\subsubsection{Minimum viable product}
+Make something basic first that does the bare minimum, then make a fancy looking one.
 \subsection{Scripting via python module}
+
 %•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
 \section{Key variables, structures, and classes}
+\subsection{Key variables}
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|p{5cm}|p{5cm}|p{10cm}|p{10cm}|}
+\hline
+Name & Type & Description & Validation \\
+\hline \hline
+inputVideoPath & std::string & Stores the path to the input video (or image sequence) file(s) & Presence check, format check. \\
+\hline
+inputVideoCapture & cv::VideoCapture & An OpenCV video capture object used to load frames from a video stored on the disk & The .isOpened() method can be used to verify a video has been loaded. \\
+\hline
+loadedFrame & cv::Mat & Frames are loaded into this variable temporarily during the loading process & Must check every time a frame is loaded that it loaded properly (check loadedFrame is not NULL, presence check.). \\
+\hline2
+First & Second & Third & Fourth \\
+\hline
+\end{tabular}
+}
+\end{center}
+\subsection{Structures}
+\subsection{Classes}
+
 %•Identified and justified the test data to be used during the iterative development of the solution.
 %•Identified and justified any further data to be used in the post development phase.
 \section{Test data}
@@ -539,11 +566,12 @@ During early development, almost any video will work to test basic functionality
 	\caption{Burnt metadata example (not photogrammetry capture data)}
 	\includegraphics[width=0.5\textwidth]{designDiagrams/metadataExample}
 	\label{fig:doggy}
-\end{figure}
-\newpage
-
+\end{figure}\\\\
+I can easily add this metadata by importing a video into blender, adjusting a couple settings, then exporting the new video.\\\\
+As I get to work on the more specialised features, I will have to capture real photogrammetry data and then do some actual photogrammetry test runs with it.
 \subsection{Post development}
 Post-development test data will not include debugging features such as burnt-in frame/timestamp metadata, and will focus much more on experimenting with how the program settings can be optimised to produce the best output. The goal of post-development testing will be to figure out how to record optimal video for photogrammetry, and how to optimise it even more by tweaking the vid2photogrammetry settings.
+
 \section{Optimisation}
 
 
