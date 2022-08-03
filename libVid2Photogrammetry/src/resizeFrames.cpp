@@ -4,6 +4,12 @@
 #include <filesystem>
 
 void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
+    // Ensure x and y are greater than 0
+    if(x == 0 || y == 0){
+        std::cout << "Error: x and y must be greater than 0" << std::endl;
+        return;
+    }
+
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
         std::cout << "Resize error: folder does not exist" << std::endl;
