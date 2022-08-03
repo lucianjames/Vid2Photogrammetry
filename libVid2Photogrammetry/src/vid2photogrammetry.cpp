@@ -22,16 +22,13 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
         std::cout << "Input file does not exist" << std::endl;
         return;
     }
-    std::string inputExtension = inputPath.substr(inputPath.find_last_of(".") + 1);
-    if(inputExtension != "mp4"){ // NEED TO CHANGE! Havent checked the full list of formats supported by OpenCV yet....
-        std::cout << "Input file is not a supported video file type" << std::endl;
-        return;
-    }
+    
     // Check outputPath is an existing directory
     if(!std::filesystem::exists(outputPath)){
         std::cout << "Output directory does not exist" << std::endl;
         return;
     }
+
     // Check outputName is no longer than 64 characters (Avoid path length issues) - This number is chosen arbitrarily tbh
     if(outputName.length() > 64){
         std::cout << "Output file name is too long (Could cause path lenght issues)" << std::endl;
