@@ -2,7 +2,21 @@
 
 #include <string.h>
 
+template <class T>
+int numDigits(T number)
+{
+    int digits = 0;
+    while(number){
+        number /= 10;
+        digits++;
+    }
+    return digits;
+}
+
 void extractFrames(std::string inputPath, std::string outputPath, std::string outputName, int frameCount){
+    // Prefix calculations:
+    int numDigitsInput = numDigits(frameCount);
+
     // Input validation goes here - doesnt exist for now
 
     // Create a VideoCapture object and open the input file
@@ -25,7 +39,7 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
         // Read the frame from the video file
         cap.read(temp);
         // Write the frame to the output file
-        cv::imwrite(outputPath + outputName + std::to_string(i) + ".png", temp);
+        cv::imwrite(outputPath + outputName + std::string(numDigitsInput-numDigits(i), '0') + std::to_string(i) + ".png", temp);
     }
 
 }
