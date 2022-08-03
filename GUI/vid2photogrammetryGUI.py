@@ -20,6 +20,8 @@ class Gui(QMainWindow):
         self.outFolderTool.clicked.connect(self.outFolderToolClicked)
         # Output name
         self.outNameText = self.findChild(QLineEdit, 'outNameText')
+        # Output extension
+        self.outExtensionText = self.findChild(QLineEdit, 'outExtensionText')
         # Output frame count
         self.outFrameCount = self.findChild(QSpinBox, 'outFrameCount')
         # Resizing checkbox
@@ -41,20 +43,21 @@ class Gui(QMainWindow):
 
     def outFolderToolClicked(self):
         fname = QFileDialog.getExistingDirectory(self, 'Open file', '~/')
-        self.outFolderText.setText(fname)
+        self.outFolderText.setText(fname+'/')
 
     def startProcessing(self):
         # Get all the GUI inputs and print to terminal for debugging
         inFile = self.inFileText.text()
         outFolder = self.outFolderText.text()
         outName = self.outNameText.text()
+        outExtension = self.outExtensionText.text()
         outFrameCount = self.outFrameCount.value()
         resize = self.resizeCheckbox.isChecked()
         resizeWidth = self.resizeWidth.value()
         resizeHeight = self.resizeHeight.value()
-        print(inFile, outFolder, outName, outFrameCount, resize, resizeWidth, resizeHeight)
+        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, resizeWidth, resizeHeight)
         # Run the vid2photogrammetry extraction function
-        vid2photogrammetry.extractFrames(inFile, outFolder, outName, "png", outFrameCount)
+        vid2photogrammetry.extractFrames(inFile, outFolder, outName, outExtension, outFrameCount)
         # If resizing enabled, run vid2photogrammetry resizing function
         if resize:
             vid2photogrammetry.resizeFrames(outFolder, resizeWidth, resizeHeight)

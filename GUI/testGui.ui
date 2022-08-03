@@ -17,7 +17,7 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="0" colspan="3">
+      <item row="6" column="0" colspan="3">
        <widget class="QCheckBox" name="resizeCheckbox">
         <property name="text">
          <string>Enable image resizing</string>
@@ -38,7 +38,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="outFrameCountLabel">
         <property name="text">
          <string>Output frame count:</string>
@@ -52,12 +52,18 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="2">
+      <item row="2" column="1" colspan="2">
+       <widget class="QLineEdit" name="outNameText"/>
+      </item>
+      <item row="4" column="1" colspan="2">
        <widget class="QSpinBox" name="outFrameCount">
         <property name="maximum">
          <number>999999999</number>
         </property>
        </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="inFileText"/>
       </item>
       <item row="0" column="2">
        <widget class="QToolButton" name="inFileTool">
@@ -66,7 +72,14 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="3">
+      <item row="8" column="0" colspan="3">
+       <widget class="QPushButton" name="goButton">
+        <property name="text">
+         <string>Go!</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="3">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="resizeWidthLabel">
@@ -105,21 +118,18 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="3">
-       <widget class="QPushButton" name="goButton">
-        <property name="text">
-         <string>Go!</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="inFileText"/>
-      </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="outFolderText"/>
       </item>
-      <item row="2" column="1" colspan="2">
-       <widget class="QLineEdit" name="outNameText"/>
+      <item row="3" column="0">
+       <widget class="QLabel" name="outExtensionLabel">
+        <property name="text">
+         <string>Output extension:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLineEdit" name="outExtensionText"/>
       </item>
      </layout>
     </item>
