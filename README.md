@@ -12,3 +12,21 @@ A-level computer science project
 * Removal of "outlier" extracted frames (frames where something is covering the camera, for example)
 * Removal of duplicate (or very near duplicate) extracted frames
 * Easy to use GUI
+
+## Compiling
+### Arch linux:
+```
+pacman -Syu
+pacman -S opencv cmake
+git clone https://github.com/LJ3D/Vid2Photogrammetry.git
+cv Vid2Photogrammetry
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+### Windows:
+Lol
+
+### Mac:
+Cry about it
