@@ -1,4 +1,3 @@
-
 report/report.log
 report/report.aux
 report/report.toc
@@ -7,3 +6,4 @@ report/reportNewDesign.aux
 report/reportNewDesign.log
 report/reportNewDesign.synctex.gz
 report/reportNewDesign.toc
+build/
