@@ -13,20 +13,5 @@ A-level computer science project
 * Removal of duplicate (or very near duplicate) extracted frames
 * Easy to use GUI
 
-## Compiling
-### Arch linux:
-```
-pacman -Syu
-pacman -S opencv cmake
-git clone https://github.com/LJ3D/Vid2Photogrammetry.git
-cv Vid2Photogrammetry
-mkdir build
-cd build
-cmake ..
-cmake --build .
-```
-### Windows:
-Lol
-
-### Mac:
-Cry about it
+## Compiling:
+Will revisit this section of the README later
