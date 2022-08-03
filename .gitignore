@@ -7,6 +7,9 @@ report/reportNewDesign.log
 report/reportNewDesign.synctex.gz
 report/reportNewDesign.toc
 build/
+GUI/build/
+GUI/dist/
 testData/testOutput/
 .vscode/settings.json
 libVid2Photogrammetry/.vscode/settings.json
+GUI/vid2photogrammetryGUI.spec
