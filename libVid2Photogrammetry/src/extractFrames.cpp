@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 
-#include <string.h>
+#include <string>
 #include <filesystem>
 
 template <class T>
