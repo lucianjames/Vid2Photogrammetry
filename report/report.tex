@@ -464,8 +464,8 @@ Figure \ref{fig:overallAlgorithm} gives an overview of how vid2photogrammetry wi
 	\label{fig:overallAlgorithm}
 \end{figure}
 \newpage
-This algorithm gives an idea of what the program needs to do, but does not describe at all how to do it. Figure \ref{fig:detailedOverallAlgorithm} provides a more detailed overview of how the program will operate.\\\\
 Figure \ref{fig:overallAlgorithm} roughly show show the individual algorithms in section \ref{indivAlgorithms} work together to produce a functional product.
+This algorithm gives an idea of what the program needs to do, but does not describe at all how to do it. Figure \ref{fig:detailedOverallAlgorithm} provides a more detailed overview of how the program will operate. (Figure \ref{fig:detailedOverallAlgorithm} is a bit messy, this is because I was mainly using it to note down some ideas)\\\\
 \begin{figure}
 	\centering
 	\caption{A more detailed vid2photogrammetry algorithm}
@@ -476,6 +476,7 @@ Figure \ref{fig:overallAlgorithm} roughly show show the individual algorithms in
 \subsection{Individual algorithms}\label{indivAlgorithms}
 \subsubsection{Fetching/validating input}
 Fetching user input will be handled by the interface program, but validation must also take place inside the vid2photogrammetry core library to minimise the potential of unexpected errors occurring.
+Figure \ref{fig:fetchingValidatingInput}
 \begin{figure}[h!]
 	\centering
 	\caption{Input validation}
@@ -490,6 +491,7 @@ To validate filepaths, the following must be checked:
 \item output folder must be empty
 \end{itemize}
 \subsubsection{Extract images from video}
+Figure \ref{fig:extractFrames}
 \begin{figure}[h!]
 	\centering
 	\caption{Frame extraction to disk}
@@ -498,14 +500,17 @@ To validate filepaths, the following must be checked:
 \end{figure}
 \newpage
 \subsubsection{Resize extracted images}
+Figure \ref{fig:resizeImages}
 \begin{figure}[h!]
 	\centering
 	\caption{Resize extracted frames stored on disk}
 	\includegraphics[width=0.8\textwidth]{designDiagrams/resizeImages}
 	\label{fig:resizeImages}
 \end{figure}
+\newpage
 \subsubsection{Detect/remove blurry images}
 The algorithm for quantifying image blurriness will have to be experimented with during development. Computing the ``variance of the laplacian'' appears like it could work pretty well based on my research, and shouldnt be too hard to implement using openCV.
+Figure \ref{fig:blurDetection}
 \begin{figure}
 	\centering
 	\caption{Blurry frame detection}
@@ -514,16 +519,26 @@ The algorithm for quantifying image blurriness will have to be experimented with
 \end{figure}
 \newpage
 \subsubsection{Detect/remove duplicate(/near duplicate) images}
-Something something resize the image really small and do something wacky. There are a couple ways i can think of doing this and they probably wont be easy.
+\begin{itemize}
+\item Autoencoders?
+\item Histogram?
+\item Simply comparing pixel values (some kind of distance function between images)?
+\end{itemize}
 \subsubsection{Detect/remove outlier images}
-Just like above, wacky stuff required.
+\begin{itemize}
+\item Autoencoders?
+\item Histogram?
+\item Simply comparing pixel values (some kind of distance function between images)?
+\end{itemize}
 \subsubsection{Denoise images}
+Figure \ref{fig:denoiseImages}
 \begin{figure}[h!]
 	\centering
 	\caption{Denoise extracted frames stored on disk}
 	\includegraphics[width=0.8\textwidth]{designDiagrams/denoiseImages}
 	\label{fig:denoiseImages}
 \end{figure}
+\newpage
 
 %•Described, justifying choices made, the usability features to be included in the solution.
 \section{Usability features}
@@ -545,25 +560,59 @@ As I plan on creating a python module from my C++ code, it makes perfect sense t
 %•Identified and justified the key variables / data structures / classes (as appropriate to the proposed solution) justifying and explaining any necessary validation.
 \section{Key variables, structures, and classes}
 \subsection{Key variables}
+\subsubsection{Core variables}
+These variables exist inside the C++ vid2photogrammetry library, Not the GUI. Most of these variables are local to various functions.
 \begin{center}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{|p{5cm}|p{5cm}|p{10cm}|p{10cm}|}
 \hline
 Name & Type & Description & Validation \\
 \hline \hline
-inputVideoPath & std::string & Stores the path to the input video (or image sequence) file(s) & Presence check, format check. \\
-\hline
-inputVideoCapture & cv::VideoCapture & An OpenCV video capture object used to load frames from a video stored on the disk & The .isOpened() method can be used to verify a video has been loaded. \\
-\hline
-loadedFrame & cv::Mat & Frames are loaded into this variable temporarily during the loading process & Must check every time a frame is loaded that it loaded properly (check loadedFrame is not NULL, presence check.). \\
-\hline2
 First & Second & Third & Fourth \\
 \hline
 \end{tabular}
 }
 \end{center}
+\subsubsection{GUI variables}
+These variables are used to store user input. The values of these variables will be fetched when the start button is pressed.
+Most of these variables will be passed into the C++ code, but im not going to copy them into the variables table for the C++ code. All of these variables have the ``type'' column for this reason (type doesnt matter in python because its a weird language, but it does in C++).
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|p{5cm}|p{3cm}|p{10cm}|p{10cm}|}
+\hline
+Name & Type & Description & Validation \\
+\hline \hline
+inputPath & string & Input video file path, used to open the video which frames are to be extracted from. & Must be an existing file, which the program has read permissions for. Must be of supported video filetypes (any video format openCV can work with).\\
+\hline
+outputFolder & string & Location extracted frames will be written to. & Must be an existing folder which the program has read/write permissions for.\\
+\hline
+outputName & string & Used to name extracted frames being output by the program. & Any string should be fine, but length could cause some issues (OS has max filepath length) so it should probably have a maximum length of maybe 64 characters or something.\\
+\hline
+enableResizing & bool & Checkbox to enable resizing of extracted frames &  \\
+\hline
+resizeX & unsigned int & Target X size passed to resize function if enableResizing is true. Extracted frames will be resized on the X dimension to this number & Probably shouldnt be bigger than the input image X size. \\
+\hline
+resizeY & unsigned int & Target Y size passed to resize function if enableResizing is true. Extracted frames will be resized on the Y dimension to this number & Probably shouldnt be bigger than the input image Y size. \\
+\hline
+enableBlurryRemoval & bool & Checkbox to enable blurry image detection and removal on extracted frames & \\
+\hline
+blurThreshold & float & Allows the user to control how blurry an image needs to be to be deleted & If using variance of laplace to detect blur, must be greater than 0. \\
+\hline
+enableOutlierRemoval & bool & Checkbox to enable removal of outlier images (for example, frames which are fully black due to camera being covered) & \\
+\hline
+outlierThreshold & float & Allows the user to control how much of an outlier an image needs to be to be deleted &  \\
+\hline
+enableDupeRemoval & bool & Checkbox to enable removal of duplicate images (or very near duplicate images), from where the camera was still for an extended period of time &  \\
+\hline
+dupeThreshold & float & Allows the user to control how close to other images a ``duplicate'' needs to be to be deleted & Should probably be greater than 0. \\
+\hline
+\end{tabular}
+}
+\end{center}
 \subsection{Structures}
+I cannot think of any structs that could be required right now...
 \subsection{Classes}
+The C++ code doesnt need any classes, at least I cant think of any it would require. The python code might use one somewhere for the GUI though.
 
 %•Identified and justified the test data to be used during the iterative development of the solution.
 %•Identified and justified any further data to be used in the post development phase.
