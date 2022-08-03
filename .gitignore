@@ -7,5 +7,6 @@ report/reportNewDesign.log
 report/reportNewDesign.synctex.gz
 report/reportNewDesign.toc
 build/
+testData/testOutput/
 .vscode/settings.json
 libVid2Photogrammetry/.vscode/settings.json
