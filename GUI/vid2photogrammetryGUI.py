@@ -1,14 +1,20 @@
-
 from PyQt5.QtWidgets import *
+from PyQt5 import uic
 
 import vid2photogrammetry
 
+class Gui(QMainWindow):
+    def __init__(self):
+        super(Gui, self).__init__()
+        uic.loadUi('testGui.ui', self)
+        self.show()
+
 def main():
     app = QApplication([])
-    window = QWidget()
-    window.setWindowTitle("Vid2Photogrammetry")
-    window.show()
+    window = Gui()
     app.exec_()
+
+
 
 if __name__ == '__main__':
     main()
