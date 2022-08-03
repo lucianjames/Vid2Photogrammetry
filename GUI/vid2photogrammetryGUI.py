@@ -53,6 +53,11 @@ class Gui(QMainWindow):
         resizeWidth = self.resizeWidth.value()
         resizeHeight = self.resizeHeight.value()
         print(inFile, outFolder, outName, outFrameCount, resize, resizeWidth, resizeHeight)
+        # Run the vid2photogrammetry extraction function
+        vid2photogrammetry.extractFrames(inFile, outFolder, outName, "png", outFrameCount)
+        # If resizing enabled, run vid2photogrammetry resizing function
+        if resize:
+            vid2photogrammetry.resizeFrames(outFolder, resizeWidth, resizeHeight)
 
 
 
