@@ -15,7 +15,7 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
     // Get the total number of frames in the video file
     int totalFrames = (int)cap.get(cv::CAP_PROP_FRAME_COUNT);
     // Calculate the step size for the frame extraction with target frameCount
-    int stepSize = (int)ceil((double)totalFrames / (double)frameCount);
+    int stepSize = std::floor(totalFrames / frameCount);
 
     // Read through the video file, stepping stepSize frames at a time
     cv::Mat temp;
