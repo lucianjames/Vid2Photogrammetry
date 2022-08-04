@@ -16,6 +16,7 @@ A-level computer science project
 ## Compiling:
 ### Arch linux:
 ```
+pacman -Syu
 pacman -S git cmake opencv python
 pip install pyqt5
 git clone --recusive https://github.com/LJ3D/Vid2Photogrammetry.git
