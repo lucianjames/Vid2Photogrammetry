@@ -11,5 +11,6 @@ file(GLOB vid2photogrammetry_SRC
 
 add_subdirectory(pybind11)
 pybind11_add_module(vid2photogrammetry ${vid2photogrammetry_SRC})
+set_property(TARGET vid2photogrammetry PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(vid2photogrammetry PRIVATE ${OpenCV_LIBS})
