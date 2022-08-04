@@ -3,4 +3,5 @@ mkdir pybuild
 cd pybuild
 mkdir dist
 cp ../GUI/*.ui .
-python3 -m PyInstaller --onefile --add-data '*.ui:.' ../GUI/vid2photogrammetryGUI.py --noconfirm
+cp ../DLLS/*.dll . # So shit works on windows
+python3 -m PyInstaller --onefile --add-data '*.ui:.' --add-data '*.dll:.' ../GUI/vid2photogrammetryGUI.py --noconfirm
