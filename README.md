@@ -14,4 +14,19 @@ A-level computer science project
 * Easy to use GUI
 
 ## Compiling:
-Will revisit this section of the README later
+# Arch linux:
+```
+pacman -S git cmake opencv python
+pip install pyqt5
+git clone --recusive https://github.com/LJ3D/Vid2Photogrammetry.git
+cd Vid2Photogrammetry
+./build.sh
+(OPTIONAL) ./pyinstaller.sh
+```
+# Other distros:
+You will figure it out, just replace pacman with whatever your package manager is
+# Windows:
+Its not fuckign worth it.
+See https://github.com/LJ3D/Vid2Photogrammetry/issues/8 for some info
+# Mac:
+lol
