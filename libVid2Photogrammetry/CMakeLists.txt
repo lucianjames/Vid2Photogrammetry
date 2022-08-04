@@ -12,10 +12,4 @@ file(GLOB vid2photogrammetry_SRC
 add_subdirectory(pybind11)
 pybind11_add_module(vid2photogrammetry ${vid2photogrammetry_SRC})
 
-# EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
-# define (VERSION_INFO) here.
-target_compile_definitions(vid2photogrammetry
-                           PRIVATE VERSION_INFO=${EXAMPLE_VERSION_INFO}
-)
-
 target_link_libraries(vid2photogrammetry PRIVATE ${OpenCV_LIBS})
