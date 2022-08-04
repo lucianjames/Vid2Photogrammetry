@@ -1,13 +1,28 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
+import os
+import sys
+
 import vid2photogrammetry
+
+
+def resource_path(relative_path):
+    # Get absolute path to resource, works for dev and for PyInstaller
+    # This is required when using PyInstaller, because of the way it packs the .ui files
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 class Gui(QMainWindow):
     def __init__(self):
         ## Init and load the GUI ##
         super(Gui, self).__init__()
-        uic.loadUi('basicGUI.ui', self)
+        uic.loadUi(resource_path('basicGUI.ui'), self)
 
         ### Define widgets ###
         # Input file
