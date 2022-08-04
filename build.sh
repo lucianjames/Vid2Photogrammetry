@@ -7,5 +7,5 @@ cp vid2photogrammetry.cpython-* ../../GUI/
 cd ../../
 mkdir pybuild
 cd pybuild
-python3 -m PyInstaller ../GUI/vid2photogrammetryGUI.py
+python3 -m PyInstaller ../GUI/vid2photogrammetryGUI.py --noconfirm
 cp ../GUI/*.ui dist/vid2photogrammetryGUI/
