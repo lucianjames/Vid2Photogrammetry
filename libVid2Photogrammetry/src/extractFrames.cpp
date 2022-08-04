@@ -63,7 +63,14 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
         // Read the frame from the video file
         cap.read(temp);
         // Write the frame to the output file
-        cv::imwrite(outputPath + outputName + std::string(numDigitsInput-numDigits(i+1), '0') + std::to_string(i+1) + "." + outputExtension, temp);
+        // Handle any errors that may occur
+        try{
+            cv::imwrite(outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension, temp);
+        }
+        catch(cv::Exception& e){
+            std::cout << "Error writing " << outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension << e.what() << std::endl;
+            return;
+        }
     }
 
 }
