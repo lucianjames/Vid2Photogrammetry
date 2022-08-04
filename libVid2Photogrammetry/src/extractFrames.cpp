@@ -68,7 +68,7 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
             cv::imwrite(outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension, temp);
         }
         catch(cv::Exception& e){
-            std::cout << "Error writing " << outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension << e.what() << std::endl;
+            std::cout << "Error writing " << outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension + " | " << e.what() << std::endl;
             return;
         }
     }
