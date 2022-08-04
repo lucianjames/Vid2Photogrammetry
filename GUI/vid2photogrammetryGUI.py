@@ -7,7 +7,7 @@ class Gui(QMainWindow):
     def __init__(self):
         ## Init and load the GUI ##
         super(Gui, self).__init__()
-        uic.loadUi('testGui.ui', self)
+        uic.loadUi('basicGUI.ui', self)
 
         ### Define widgets ###
         # Input file
