@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
+import qdarktheme
+
 import os
 import sys
 
@@ -9,7 +11,7 @@ import vid2photogrammetry
 
 def resource_path(relative_path):
     # Get absolute path to resource, works for dev and for PyInstaller
-    # This is required when using PyInstaller, because of the way it packs the .ui files
+    # This is required when using PyInstaller, because of the way it packs the .ui fileso
     try:
         base_path = sys._MEIPASS
     except Exception:
@@ -81,6 +83,8 @@ class Gui(QMainWindow):
 
 def main():
     app = QApplication([])
+    # Apply dark theme to Qt application
+    app.setStyleSheet(qdarktheme.load_stylesheet())
     window = Gui()
     app.exec_()
 
