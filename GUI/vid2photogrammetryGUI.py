@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtGui import QIcon
 
 import qdarktheme
 
@@ -25,6 +26,9 @@ class Gui(QMainWindow):
         ## Init and load the GUI ##
         super(Gui, self).__init__()
         uic.loadUi(resource_path('basicGUI.ui'), self)
+        self.setWindowTitle('vid2photogrammetry')
+        self.setStyleSheet(qdarktheme.load_stylesheet())
+        self.setWindowIcon(QIcon(resource_path('icon.png')))
 
         ### Define widgets ###
         # Input file
@@ -83,8 +87,7 @@ class Gui(QMainWindow):
 
 def main():
     app = QApplication([])
-    # Apply dark theme to Qt application
-    app.setStyleSheet(qdarktheme.load_stylesheet())
+
     window = Gui()
     app.exec_()
 
