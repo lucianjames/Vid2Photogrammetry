@@ -47,6 +47,8 @@ class Gui(QMainWindow):
         self.outFrameCount = self.findChild(QSpinBox, 'outFrameCount')
         # Resizing checkbox
         self.resizeCheckbox = self.findChild(QCheckBox, 'resizeCheckbox')
+        # Blur detection checkbox
+        self.blurCheckbox = self.findChild(QCheckBox, 'blurCheckbox')
         # Resizing width
         self.resizeWidth = self.findChild(QSpinBox, 'resizeWidth')
         # Resizing height
@@ -74,14 +76,18 @@ class Gui(QMainWindow):
         outExtension = self.outExtensionText.text()
         outFrameCount = self.outFrameCount.value()
         resize = self.resizeCheckbox.isChecked()
+        blurDetect = self.blurCheckbox.isChecked()
         resizeWidth = self.resizeWidth.value()
         resizeHeight = self.resizeHeight.value()
-        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, resizeWidth, resizeHeight)
+        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, blurDetect, resizeWidth, resizeHeight)
+        print("BD:", blurDetect)
         # Run the vid2photogrammetry extraction function
         vid2photogrammetry.extractFrames(inFile, outFolder, outName, outExtension, outFrameCount)
         # If resizing enabled, run vid2photogrammetry resizing function
         if resize:
             vid2photogrammetry.resizeFrames(outFolder, resizeWidth, resizeHeight)
+        if blurDetect:
+            vid2photogrammetry.detectBlurry(outFolder)
 
 
 
