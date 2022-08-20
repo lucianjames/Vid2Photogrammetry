@@ -11,4 +11,5 @@ PYBIND11_MODULE(vid2photogrammetry, m) {
     m.def("extractFrames", &extractFrames);
     m.def("resizeFrames", &resizeFrames);
     m.def("removeBlurryFrames", &removeBlurryFrames);
+    m.def("denoiseFrames", &denoiseFrames)
 }
