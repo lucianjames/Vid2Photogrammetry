@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>595</width>
-    <height>397</height>
+    <width>513</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,10 +31,10 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QCheckBox" name="blurCheckbox">
+      <item row="7" column="0">
+       <widget class="QCheckBox" name="resizeCheckbox">
         <property name="text">
-         <string>Enable blur detection (DEV TEST MODE)</string>
+         <string>Enable image resizing</string>
         </property>
        </widget>
       </item>
@@ -89,6 +89,13 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="blurCheckbox">
+        <property name="text">
+         <string>Delete blurry images</string>
+        </property>
+       </widget>
+      </item>
       <item row="9" column="0" colspan="3">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -131,12 +138,26 @@
       <item row="2" column="1" colspan="2">
        <widget class="QLineEdit" name="outNameText"/>
       </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="resizeCheckbox">
-        <property name="text">
-         <string>Enable image resizing</string>
-        </property>
-       </widget>
+      <item row="5" column="1" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="blurThresholdLabel">
+          <property name="text">
+           <string>Threshold (lower = blurrier):</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="blurThreshold">
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+          <property name="value">
+           <number>800</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -160,7 +181,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>595</width>
+     <width>513</width>
      <height>30</height>
     </rect>
    </property>

@@ -3,5 +3,5 @@
 
 #include <string>
 
-int quantifyBlur(cv::Mat img);
-void detectBlurry(std::string framesFolder);
+float quantifyBlur(cv::Mat img);
+void removeBlurryFrames(std::string framesFolder, int threshold);

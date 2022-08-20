@@ -4,7 +4,7 @@
 #include <string>
 #include <filesystem>
 
-double quantifyBlur(const cv::Mat& img){
+float quantifyBlur(const cv::Mat& img){
     // Convert image to grayscale and scale it down
     cv::Mat grayImg;
     cv::cvtColor(img, grayImg, cv::COLOR_BGR2GRAY); // Convert to gray
@@ -16,7 +16,7 @@ double quantifyBlur(const cv::Mat& img){
     return stddev.val[0]*stddev.val[0];
 }
 
-void detectBlurry(std::string framesFolder){
+void removeBlurryFrames(std::string framesFolder, int threshold){
     // Just get the blur values for each image, going to program the removal feature next.
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
@@ -33,7 +33,13 @@ void detectBlurry(std::string framesFolder){
     std::cout << "Blur detection values:" << std::endl;
     for(auto fp : files){
         std::cout << fp << std::endl;
-        std::cout << quantifyBlur(cv::imread(fp)) << std::endl;
-        std::cout << "====" << std::endl;
+        float frameBlur = quantifyBlur(cv::imread(fp));
+        std::cout << frameBlur << std::endl;
+        // If blur is below threshold, delete it
+        if(frameBlur < threshold){
+            std::filesystem::remove(fp);
+        }
     }
+
+
 }

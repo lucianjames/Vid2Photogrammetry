@@ -10,5 +10,5 @@ PYBIND11_MODULE(vid2photogrammetry, m) {
     m.doc() = "Epic gaming!";
     m.def("extractFrames", &extractFrames);
     m.def("resizeFrames", &resizeFrames);
-    m.def("detectBlurry", &detectBlurry);
+    m.def("removeBlurryFrames", &removeBlurryFrames);
 }
