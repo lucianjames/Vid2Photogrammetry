@@ -2,6 +2,7 @@
 
 #include "extractFrames.hpp"
 #include "resizeFrames.hpp"
+#include "detectBlur.hpp"
 
 namespace py = pybind11;
 
