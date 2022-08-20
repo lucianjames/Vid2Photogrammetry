@@ -30,7 +30,10 @@ void detectBlurry(std::string framesFolder){
         files.push_back(p.path().string());
     }
 
+    std::cout << "Blur detection values:" << std::endl;
     for(auto fp : files){
-        std::cout << quantifyBlur(cv::imread(fp));
+        std::cout << fp << std::endl;
+        std::cout << quantifyBlur(cv::imread(fp)) << std::endl;
+        std::cout << "====" << std::endl;
     }
 }
