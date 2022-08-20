@@ -159,6 +159,13 @@
         </item>
        </layout>
       </item>
+      <item row="8" column="0">
+       <widget class="QCheckBox" name="denoiseCheckbox">
+        <property name="text">
+         <string>Enable image denoising</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
