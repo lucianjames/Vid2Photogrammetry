@@ -2,6 +2,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <string>
+#include <filesystem>
 
 void denoiseFrames(std::string framesFolder){
     // Check framesFolder exists
