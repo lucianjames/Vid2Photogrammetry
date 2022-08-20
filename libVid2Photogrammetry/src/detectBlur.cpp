@@ -10,10 +10,10 @@ float quantifyBlur(const cv::Mat& img){
     cv::cvtColor(img, grayImg, cv::COLOR_BGR2GRAY); // Convert to gray
     cv::resize(grayImg, grayImg, cv::Size(512, 512)); // Resize to fixed size
     cv::Mat laplaceImage;
-    cv::Laplacian(grayImg, laplaceImage, CV_64F);
+    cv::Laplacian(grayImg, laplaceImage, CV_64F); // Calc laplace filter
     cv::Scalar mean, stddev;
-    cv::meanStdDev(laplaceImage, mean, stddev, cv::Mat());
-    return stddev.val[0]*stddev.val[0];
+    cv::meanStdDev(laplaceImage, mean, stddev, cv::Mat()); // Get stddev of laplace
+    return stddev.val[0]*stddev.val[0]; // Return variance of laplace
 }
 
 void removeBlurryFrames(std::string framesFolder, int threshold){
@@ -23,11 +23,13 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
         std::cout << "Blur removal error: folder does not exist" << std::endl;
         return;
     }
+
     // Get the list of files in the framesFolder
     std::vector<std::string> files;
     for(auto& p : std::filesystem::directory_iterator(framesFolder)){
         files.push_back(p.path().string());
     }
+
     // Run blur detection
     std::cout << "Blur detection values:" << std::endl;
     for(auto fp : files){
