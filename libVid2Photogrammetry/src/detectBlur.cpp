@@ -20,16 +20,15 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
     // Just get the blur values for each image, going to program the removal feature next.
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
-        std::cout << "Resize error: folder does not exist" << std::endl;
+        std::cout << "Blur removal error: folder does not exist" << std::endl;
         return;
     }
-
     // Get the list of files in the framesFolder
     std::vector<std::string> files;
     for(auto& p : std::filesystem::directory_iterator(framesFolder)){
         files.push_back(p.path().string());
     }
-
+    // Run blur detection
     std::cout << "Blur detection values:" << std::endl;
     for(auto fp : files){
         std::cout << fp << std::endl;
@@ -40,6 +39,4 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
             std::filesystem::remove(fp);
         }
     }
-
-
 }

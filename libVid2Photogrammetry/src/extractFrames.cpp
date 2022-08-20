@@ -32,7 +32,7 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
 
     // Check outputName is no longer than 64 characters (Avoid path length issues) - This number is chosen arbitrarily tbh
     if(outputName.length() > 64){
-        std::cout << "Output file name is too long (Could cause path lenght issues)" << std::endl;
+        std::cout << "Output file name is too long (Could cause path length issues)" << std::endl;
         return;
     }
 

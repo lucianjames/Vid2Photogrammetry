@@ -24,14 +24,9 @@ void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
     }
 
     // Resize each frame in the framesFolder
-    for(int i=0; i<files.size(); i++){
-        // Load the frame
-        cv::Mat frame = cv::imread(files[i]);
-        if(frame.empty()){
-            std::cout << "Resize error: could not load frame " << i << std::endl;
-            return;
-        }
+    for(auto fp : files){
+        cv::Mat frame = cv::imread(fp);
         cv::resize(frame, frame, cv::Size(x, y)); // Resize the frame
-        cv::imwrite(files[i], frame); // Save the frame
+        cv::imwrite(fp, frame); // Save the frame
     }
 }
