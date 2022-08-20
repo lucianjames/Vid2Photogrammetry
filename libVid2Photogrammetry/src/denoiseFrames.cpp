@@ -4,7 +4,7 @@
 #include <string>
 #include <filesystem>
 
-void denoiseFrames(std::string framesFolder){
+void denoiseFrames(std::string framesFolder, float strength){
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
         std::cout << "Denoise error: folder does not exist" << std::endl;
@@ -20,7 +20,7 @@ void denoiseFrames(std::string framesFolder){
     // Denoise all the frames
     for(auto fp : files){
         cv::Mat denoised;
-        cv::fastNlMeansDenoising(cv::imread(fp), denoised, 30.0, 7, 21);
+        cv::fastNlMeansDenoising(cv::imread(fp), denoised, strength, 7, 21);
         cv::imwrite(fp, denoised);
     }
 }

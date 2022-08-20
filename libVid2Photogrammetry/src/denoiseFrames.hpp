@@ -3,4 +3,4 @@
 
 #include <string>
 
-void denoiseFrames(std::string framesFolder);
+void denoiseFrames(std::string framesFolder, float strength);

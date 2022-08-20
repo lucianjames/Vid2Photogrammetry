@@ -53,6 +53,8 @@ class Gui(QMainWindow):
         self.blurThreshold = self.findChild(QSpinBox, 'blurThreshold')
         # Denoise checkbox
         self.denoiseCheckbox = self.findChild(QCheckBox, 'denoiseCheckbox')
+        # Denoise strength
+        self.denoiseStrength = self.findChild(QSpinBox, 'denoiseStrength')
         # Resizing width
         self.resizeWidth = self.findChild(QSpinBox, 'resizeWidth')
         # Resizing height
@@ -83,6 +85,7 @@ class Gui(QMainWindow):
         blurDetect = self.blurCheckbox.isChecked()
         blurThreshold = self.blurThreshold.value()
         denoise = self.denoiseCheckbox.isChecked()
+        denoiseStrength = self.denoiseStrength.value()
         resizeWidth = self.resizeWidth.value()
         resizeHeight = self.resizeHeight.value()
         print(inFile, outFolder, outName, outExtension, outFrameCount, resize, blurDetect, blurThreshold, resizeWidth, resizeHeight)
@@ -94,7 +97,7 @@ class Gui(QMainWindow):
         if blurDetect:
             vid2photogrammetry.removeBlurryFrames(outFolder, blurThreshold)
         if denoise:
-            vid2photogrammetry.denoiseFrames(outFolder)
+            vid2photogrammetry.denoiseFrames(outFolder, denoiseStrength)
 
 
 
