@@ -17,10 +17,12 @@ float quantifyBlur(const cv::Mat& img){
 }
 
 void removeBlurryFrames(std::string framesFolder, int threshold){
-    // Just get the blur values for each image, going to program the removal feature next.
+    std::cout << "==================================================" << std::endl;
+    std::cout << "Removing blurry frames...." << std::endl;
+    std::cout << "Performing validation..." << std::endl;
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
-        std::cout << "Blur removal error: folder does not exist" << std::endl;
+        std::cout << "ERR: folder does not exist" << std::endl;
         return;
     }
 
@@ -31,14 +33,14 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
     }
 
     // Run blur detection
-    std::cout << "Blur detection values:" << std::endl;
+    std::cout << "Performing blurry frame removal..." << std::endl;
     for(auto fp : files){
-        std::cout << fp << std::endl;
         float frameBlur = quantifyBlur(cv::imread(fp));
-        std::cout << frameBlur << std::endl;
         // If blur is below threshold, delete it
         if(frameBlur < threshold){
             std::filesystem::remove(fp);
+            std::cout << "Deleted file " << fp << " | Blur value: " << frameBlur << " | Threshold: " << threshold << std::endl;
         }
     }
+    std::cout << "Blurry frame removal complete" << std::endl;
 }

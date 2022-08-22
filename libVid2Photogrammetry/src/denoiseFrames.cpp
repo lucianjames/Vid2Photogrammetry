@@ -5,9 +5,12 @@
 #include <filesystem>
 
 void denoiseFrames(std::string framesFolder, float strength){
+    std::cout << "==================================================" << std::endl;
+    std::cout << "Denoising frames...." << std::endl;
+    std::cout << "Performing validation..." << std::endl;
     // Check framesFolder exists
     if(!std::filesystem::exists(framesFolder)){
-        std::cout << "Denoise error: folder does not exist" << std::endl;
+        std::cout << "ERR: folder does not exist" << std::endl;
         return;
     }
 
@@ -18,9 +21,11 @@ void denoiseFrames(std::string framesFolder, float strength){
     }
 
     // Denoise all the frames
+    std::cout << "Denoising " << files.size() << " images..." << std::endl;
     for(auto fp : files){
         cv::Mat denoised;
         cv::fastNlMeansDenoising(cv::imread(fp), denoised, strength, 7, 21);
         cv::imwrite(fp, denoised);
     }
+    std::cout << "Denoising complete" << std::endl;
 }
