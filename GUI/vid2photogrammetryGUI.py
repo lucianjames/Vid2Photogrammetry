@@ -88,7 +88,7 @@ class Gui(QMainWindow):
         denoiseStrength = self.denoiseStrength.value()
         resizeWidth = self.resizeWidth.value()
         resizeHeight = self.resizeHeight.value()
-        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, blurDetect, blurThreshold, resizeWidth, resizeHeight)
+        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, blurDetect, blurThreshold, denoise, denoiseStrength, resizeWidth, resizeHeight)
         # Run the vid2photogrammetry extraction function
         vid2photogrammetry.extractFrames(inFile, outFolder, outName, outExtension, outFrameCount)
         # If resizing enabled, run vid2photogrammetry resizing function
@@ -98,6 +98,7 @@ class Gui(QMainWindow):
             vid2photogrammetry.removeBlurryFrames(outFolder, blurThreshold)
         if denoise:
             vid2photogrammetry.denoiseFrames(outFolder, denoiseStrength)
+        print("Processing complete")
 
 
 
