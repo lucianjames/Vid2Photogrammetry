@@ -42,7 +42,9 @@ class Gui(QMainWindow):
         # Output name
         self.outNameText = self.findChild(QLineEdit, 'outNameText')
         # Output extension
-        self.outExtensionText = self.findChild(QLineEdit, 'outExtensionText')
+        self.outExtensionComboBox = self.findChild(QComboBox, 'outExtensionComboBox')
+        extensionList = ["png", "jpg", "bmp"]
+        self.outExtensionComboBox.addItems(extensionList)
         # Output frame count
         self.outFrameCount = self.findChild(QSpinBox, 'outFrameCount')
         # Resizing checkbox
@@ -79,7 +81,7 @@ class Gui(QMainWindow):
         inFile = self.inFileText.text()
         outFolder = self.outFolderText.text()
         outName = self.outNameText.text()
-        outExtension = self.outExtensionText.text()
+        outExtension = str(self.outExtensionComboBox.currentText())
         outFrameCount = self.outFrameCount.value()
         resize = self.resizeCheckbox.isChecked()
         blurDetect = self.blurCheckbox.isChecked()
