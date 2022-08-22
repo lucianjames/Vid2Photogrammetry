@@ -18,6 +18,12 @@ int numDigits(T number) // Gets the number of digits in a number (for example, i
 void extractFrames(std::string inputPath, std::string outputPath, std::string outputName, std::string outputExtension, int frameCount){
     int numDigitsInput = numDigits(frameCount); // Required for the file name
 
+    // Check frameCount is above 0
+    if(frameCount <= 0){
+        std::cout << "FrameCount =< 0" << std::endl;
+        return;
+    }
+
     // Check inputPath is an existing file, of the supported file types
     if(!std::filesystem::exists(inputPath)){
         std::cout << "Input file does not exist" << std::endl;

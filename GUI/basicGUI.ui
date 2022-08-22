@@ -26,6 +26,9 @@
       </item>
       <item row="4" column="1" colspan="2">
        <widget class="QSpinBox" name="outFrameCount">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>999999999</number>
         </property>
