@@ -4,4 +4,5 @@ cd pybuild
 mkdir dist
 cp ../GUI/*.ui .
 cp ../GUI/*.dll .
-python3 -m PyInstaller --onefile --add-binary '*.dll;.' --add-data '*.ui;.' ../GUI/vid2photogrammetryGUI.py --noconfirm
+cp ../GUI/icon.png .
+python3 -m PyInstaller --onedir --add-binary '*.dll;.' --add-data '*.ui;.' --add-data 'icon.png;.' ../GUI/vid2photogrammetryGUI.py --noconfirm 
