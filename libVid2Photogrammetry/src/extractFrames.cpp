@@ -68,8 +68,7 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
 
     // Read through the video file, stepping stepSize frames at a time
     cv::Mat temp;
-    std::cout << "Writing " << frameCount << " images to disk..." << std::endl;
-    std::cout << "0%";
+    std::cout << "Extracting and writing " << frameCount << " images to disk..." << std::endl;
     for(int i = 0; i < frameCount; i++){
         // Set the videocapture frame to stepSize * i
         cap.set(cv::CAP_PROP_POS_FRAMES, stepSize * i);
@@ -84,8 +83,6 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
             std::cout << "ERR: Error writing " << outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension + " | " << e.what() << std::endl;
             return;
         }
-        std::cout << "\r" << std::fixed << std::setprecision(0) << (i / frameCount) * 100 << "%";
     }
-    std::cout << "100%" << std::endl;
     std::cout << "Frame extraction complete" << std::endl;
 }
