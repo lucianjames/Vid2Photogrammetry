@@ -98,6 +98,7 @@ class Gui(QMainWindow):
             vid2photogrammetry.removeBlurryFrames(outFolder, blurThreshold)
         if denoise:
             vid2photogrammetry.denoiseFrames(outFolder, denoiseStrength)
+        print("============================================================")
         print("Processing complete")
 
 

@@ -11,6 +11,7 @@ void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
     // Ensure x and y are greater than 0
     if(x == 0 || y == 0){
         std::cout << "ERR: x and y must be greater than 0" << std::endl;
+        std::cout << "No frames were resized" << std::endl;
         return;
     }
 

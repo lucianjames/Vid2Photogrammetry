@@ -34,13 +34,15 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
 
     // Run blur detection
     std::cout << "Performing blurry frame removal..." << std::endl;
+    int removed = 0;
     for(auto fp : files){
         float frameBlur = quantifyBlur(cv::imread(fp));
         // If blur is below threshold, delete it
         if(frameBlur < threshold){
             std::filesystem::remove(fp);
             std::cout << "Deleted file " << fp << " | Blur value: " << frameBlur << " | Threshold: " << threshold << std::endl;
+            removed++;
         }
     }
-    std::cout << "Blurry frame removal complete" << std::endl;
+    std::cout << "Blurry frame removal complete (" << removed << " deleted)" << std::endl;
 }
