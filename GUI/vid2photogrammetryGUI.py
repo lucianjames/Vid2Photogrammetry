@@ -57,6 +57,10 @@ class Gui(QMainWindow):
         self.denoiseCheckbox = self.findChild(QCheckBox, 'denoiseCheckbox')
         # Denoise strength
         self.denoiseStrength = self.findChild(QSpinBox, 'denoiseStrength')
+        # Duplicate removal checkbox
+        self.duplicateCheckbox = self.findChild(QCheckBox, 'duplicateCheckbox')
+        # Duplicate removal threshold
+        self.duplicateThreshold = self.findChild(QDoubleSpinBox, 'duplicateThreshold')
         # Resizing width
         self.resizeWidth = self.findChild(QSpinBox, 'resizeWidth')
         # Resizing height
@@ -77,29 +81,17 @@ class Gui(QMainWindow):
         self.outFolderText.setText(fname+'/')
 
     def startProcessing(self):
-        # Get all the GUI inputs and print to terminal for debugging
-        inFile = self.inFileText.text()
-        outFolder = self.outFolderText.text()
-        outName = self.outNameText.text()
-        outExtension = str(self.outExtensionComboBox.currentText())
-        outFrameCount = self.outFrameCount.value()
-        resize = self.resizeCheckbox.isChecked()
-        blurDetect = self.blurCheckbox.isChecked()
-        blurThreshold = self.blurThreshold.value()
-        denoise = self.denoiseCheckbox.isChecked()
-        denoiseStrength = self.denoiseStrength.value()
-        resizeWidth = self.resizeWidth.value()
-        resizeHeight = self.resizeHeight.value()
-        print(inFile, outFolder, outName, outExtension, outFrameCount, resize, blurDetect, blurThreshold, denoise, denoiseStrength, resizeWidth, resizeHeight)
         # Run the vid2photogrammetry extraction function
-        vid2photogrammetry.extractFrames(inFile, outFolder, outName, outExtension, outFrameCount)
+        vid2photogrammetry.extractFrames(self.inFileText.text(), self.outFolderText.text(), self.outNameText.text(), str(self.outExtensionComboBox.currentText()), self.outFrameCount.value())
         # If resizing enabled, run vid2photogrammetry resizing function
-        if resize:
-            vid2photogrammetry.resizeFrames(outFolder, resizeWidth, resizeHeight)
-        if blurDetect:
-            vid2photogrammetry.removeBlurryFrames(outFolder, blurThreshold)
-        if denoise:
-            vid2photogrammetry.denoiseFrames(outFolder, denoiseStrength)
+        if self.resizeCheckbox.isChecked():
+            vid2photogrammetry.resizeFrames(self.outFolderText.text(), self.resizeWidth.value(), self.resizeHeight.value())
+        if self.blurCheckbox.isChecked():
+            vid2photogrammetry.removeBlurryFrames(self.outFolderText.text(), self.blurThreshold.value())
+        if self.denoiseCheckbox.isChecked():
+            vid2photogrammetry.denoiseFrames(self.outFolderText.text(), self.denoiseStrength.value())
+        if self.duplicateCheckbox.isChecked():
+            vid2photogrammetry.deleteNearDuplicates(self.outFolderText.text(), self.duplicateThreshold.value())
         print("============================================================")
         print("Processing complete")
 
