@@ -4,6 +4,9 @@
 #include <string>
 #include <filesystem>
 
+#include "commonFunctions.hpp"
+
+
 void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
     std::cout << "==================================================" << std::endl;
     std::cout << "Resizing frames...." << std::endl;
@@ -16,16 +19,10 @@ void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
     }
 
     // Check framesFolder exists
-    if(!std::filesystem::exists(framesFolder)){
-        std::cout << "ERR: folder does not exist" << std::endl;
-        return;
-    }
+    if(!framesFolderExists(framesFolder)){return;}
 
     // Get the list of files in the framesFolder
-    std::vector<std::string> files;
-    for(auto& p : std::filesystem::directory_iterator(framesFolder)){
-        files.push_back(p.path().string());
-    }
+    std::vector<std::string> files = getFilepathsInFolder(framesFolder);
 
     // Resize each frame in the framesFolder
     std::cout << "Resizing " << files.size() << " images..." << std::endl;

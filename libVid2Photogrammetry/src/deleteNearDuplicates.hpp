@@ -6,6 +6,9 @@
 #include <vector>
 #include <unordered_map>
 
+#include "commonFunctions.hpp"
+
+
 cv::Mat calcHistNorm(cv::Mat input){
     cv::Mat hist;
     // Convert to HSV
@@ -26,15 +29,10 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
     std::cout << "Removing (near) duplicate frames...." << std::endl;
     std::cout << "Performing validation..." << std::endl;
     // Check framesFolder exists
-    if(!std::filesystem::exists(framesFolder)){
-        std::cout << "ERR: folder does not exist" << std::endl;
-        return;
-    }
+    if(!framesFolderExists(framesFolder)){return;}
+
     // Get the list of files in the framesFolder
-    std::vector<std::string> files;
-    for(auto& p : std::filesystem::directory_iterator(framesFolder)){
-        files.push_back(p.path().string());
-    }
+    std::vector<std::string> files = getFilepathsInFolder(framesFolder);
     
     // This is disgustingly O(n^2).
     // Could be optimised a bit though.

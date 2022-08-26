@@ -4,6 +4,8 @@
 #include <string>
 #include <filesystem>
 
+#include "commonFunctions.hpp"
+
 float quantifyBlur(const cv::Mat& img){
     // Convert image to grayscale and scale it down
     cv::Mat grayImg;
@@ -21,17 +23,11 @@ void removeBlurryFrames(std::string framesFolder, int threshold){
     std::cout << "Removing blurry frames...." << std::endl;
     std::cout << "Performing validation..." << std::endl;
     // Check framesFolder exists
-    if(!std::filesystem::exists(framesFolder)){
-        std::cout << "ERR: folder does not exist" << std::endl;
-        return;
-    }
+    if(!framesFolderExists(framesFolder)){return;}
 
     // Get the list of files in the framesFolder
-    std::vector<std::string> files;
-    for(auto& p : std::filesystem::directory_iterator(framesFolder)){
-        files.push_back(p.path().string());
-    }
-
+    std::vector<std::string> files = getFilepathsInFolder(framesFolder);
+    
     // Run blur detection
     std::cout << "Performing blurry frame removal..." << std::endl;
     int removed = 0;
