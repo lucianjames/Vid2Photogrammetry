@@ -53,7 +53,7 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
                 std::cout << fp << " | " << fp2 << std::endl;
                 float unSimilarity = cv::compareHist(img1_hist, img2_hist, cv::HISTCMP_BHATTACHARYYA);
                 std::cout << unSimilarity << std::endl;
-                if(unSimilarity > threshold){
+                if(unSimilarity < threshold){
                     toDelete.push_back(fp2);
                     std::cout << fp << " and " << fp2 << " ARE TOO SIMILAR APPARENTLY!LRYTUYT!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
                 }
