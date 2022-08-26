@@ -4,6 +4,7 @@
 #include "resizeFrames.hpp"
 #include "detectBlur.hpp"
 #include "denoiseFrames.hpp"
+#include "deleteNearDuplicates.hpp"
 
 namespace py = pybind11;
 
@@ -13,4 +14,5 @@ PYBIND11_MODULE(vid2photogrammetry, m) {
     m.def("resizeFrames", &resizeFrames);
     m.def("removeBlurryFrames", &removeBlurryFrames);
     m.def("denoiseFrames", &denoiseFrames);
+    m.def("deleteNearDuplicates", &deleteNearDuplicates);
 }
