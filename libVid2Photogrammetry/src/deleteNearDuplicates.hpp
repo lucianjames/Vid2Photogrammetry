@@ -39,6 +39,7 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
     // This is disgustingly O(n^2).
     // Could be optimised a bit though.
     std::cout << "Performing histogram analysis and frame removal..." << std::endl;
+    std::cout << "Using HISTCMP_BHATTACHARYYA" << std::endl;
     std::vector<std::string> toDelete; // Delete after loop to avoid having to account for fucky stuff.
     std::unordered_map<std::string, bool> alreadyCompared;
     for(auto fp : files){
@@ -46,13 +47,10 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
         cv::Mat img1_hist = calcHistNorm(img1);
         alreadyCompared[fp+fp] = true;
         for(auto fp2 : files){
-            std::cout << alreadyCompared[fp+fp2] << "  " << alreadyCompared[fp2+fp] << std::endl;
             if(!(alreadyCompared[fp+fp2]) && !(alreadyCompared[fp2+fp])){
                 cv::Mat img2 = cv::imread(fp2);
                 cv::Mat img2_hist = calcHistNorm(img2);
-                std::cout << fp << " | " << fp2 << std::endl;
                 float unSimilarity = cv::compareHist(img1_hist, img2_hist, cv::HISTCMP_BHATTACHARYYA);
-                std::cout << unSimilarity << std::endl;
                 if((unSimilarity < threshold) && (std::find(toDelete.begin(), toDelete.end(), fp2) == toDelete.end())){
                     toDelete.push_back(fp2);
                 }
