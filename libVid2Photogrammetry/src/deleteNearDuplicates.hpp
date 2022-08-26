@@ -8,7 +8,6 @@
 
 #include "commonFunctions.hpp"
 
-
 cv::Mat calcHistNorm(cv::Mat input){
     cv::Mat hist;
     // Convert to HSV
@@ -34,12 +33,11 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
     // Get the list of files in the framesFolder
     std::vector<std::string> files = getFilepathsInFolder(framesFolder);
     
-    // This is disgustingly O(n^2).
-    // Could be optimised a bit though.
+    // Basically O(n^2), but ive optimised it a little bit
     std::cout << "Performing histogram analysis and frame removal..." << std::endl;
     std::cout << "Using HISTCMP_BHATTACHARYYA" << std::endl;
     std::vector<std::string> toDelete; // Delete after loop to avoid having to account for fucky stuff.
-    std::unordered_map<std::string, bool> alreadyCompared;
+    std::unordered_map<std::string, bool> alreadyCompared; // Used to avoid doing the same comparison (or the same comparison the other way around) multiple times.
     for(auto fp : files){
         cv::Mat fp1hist = calcHistNorm(cv::imread(fp));
         alreadyCompared[fp+fp] = true;

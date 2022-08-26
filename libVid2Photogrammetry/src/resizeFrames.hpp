@@ -6,7 +6,6 @@
 
 #include "commonFunctions.hpp"
 
-
 void resizeFrames(std::string framesFolder, unsigned int x, unsigned int y){
     std::cout << "==================================================" << std::endl;
     std::cout << "Resizing frames...." << std::endl;

@@ -6,7 +6,6 @@
 
 #include "commonFunctions.hpp"
 
-
 void denoiseFrames(std::string framesFolder, float strength){
     std::cout << "==================================================" << std::endl;
     std::cout << "Denoising frames...." << std::endl;
@@ -16,7 +15,7 @@ void denoiseFrames(std::string framesFolder, float strength){
 
     // Get the list of files in the framesFolder
     std::vector<std::string> files = getFilepathsInFolder(framesFolder);
-    
+
     // Denoise all the frames
     std::cout << "Denoising " << files.size() << " images..." << std::endl;
     for(auto fp : files){
