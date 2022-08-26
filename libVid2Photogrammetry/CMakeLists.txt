@@ -4,6 +4,8 @@ project(vid2photogrammetry_pybind)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+set(CMAKE_CXX_FLAGS "-O3")
+
 file(GLOB vid2photogrammetry_SRC
      "src/*.hpp"
      "src/*.cpp"
