@@ -43,14 +43,11 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
     std::vector<std::string> toDelete; // Delete after loop to avoid having to account for fucky stuff.
     std::unordered_map<std::string, bool> alreadyCompared;
     for(auto fp : files){
-        cv::Mat img1 = cv::imread(fp);
-        cv::Mat img1_hist = calcHistNorm(img1);
+        cv::Mat fp1hist = calcHistNorm(cv::imread(fp));
         alreadyCompared[fp+fp] = true;
         for(auto fp2 : files){
             if(!(alreadyCompared[fp+fp2]) && !(alreadyCompared[fp2+fp])){
-                cv::Mat img2 = cv::imread(fp2);
-                cv::Mat img2_hist = calcHistNorm(img2);
-                float unSimilarity = cv::compareHist(img1_hist, img2_hist, cv::HISTCMP_BHATTACHARYYA);
+                float unSimilarity = cv::compareHist(fp1hist, calcHistNorm(cv::imread(fp2)), cv::HISTCMP_BHATTACHARYYA);
                 if((unSimilarity < threshold) && (std::find(toDelete.begin(), toDelete.end(), fp2) == toDelete.end())){
                     toDelete.push_back(fp2);
                 }
