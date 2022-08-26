@@ -47,7 +47,7 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
         alreadyCompared[fp+fp] = true;
         for(auto fp2 : files){
             std::cout << alreadyCompared[fp+fp2] << std::endl;
-            if(alreadyCompared[fp+fp2] || alreadyCompared[fp2+fp]){
+            if(!(alreadyCompared[fp+fp2]) || !(alreadyCompared[fp2+fp])){
                 cv::Mat img2 = cv::imread(fp2);
                 cv::Mat img2_hist = calcHistNorm(img2);
                 std::cout << fp << " | " << fp2 << std::endl;
@@ -57,6 +57,7 @@ void deleteNearDuplicates(std::string framesFolder, float threshold){
                     toDelete.push_back(fp2);
                     std::cout << fp << " and " << fp2 << " ARE TOO SIMILAR APPARENTLY!LRYTUYT!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
                 }
+                alreadyCompared[fp+fp2] = true;
             }
         }
     }
