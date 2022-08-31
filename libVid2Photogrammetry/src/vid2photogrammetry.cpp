@@ -5,6 +5,7 @@
 #include "detectBlur.hpp"
 #include "denoiseFrames.hpp"
 #include "deleteNearDuplicates.hpp"
+#include "deleteOutliers.hpp"
 
 namespace py = pybind11;
 
@@ -15,4 +16,5 @@ PYBIND11_MODULE(vid2photogrammetry, m) {
     m.def("removeBlurryFrames", &removeBlurryFrames);
     m.def("denoiseFrames", &denoiseFrames);
     m.def("deleteNearDuplicates", &deleteNearDuplicates);
+    m.def("deleteOutliers", &deleteOutliers);
 }

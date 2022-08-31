@@ -1,3 +1,4 @@
+from lzma import is_check_supported
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
@@ -61,6 +62,10 @@ class Gui(QMainWindow):
         self.duplicateCheckbox = self.findChild(QCheckBox, 'duplicateCheckbox')
         # Duplicate removal threshold
         self.duplicateThreshold = self.findChild(QDoubleSpinBox, 'duplicateThreshold')
+        # Outlier removal checkbox
+        self.outlierCheckbox = self.findChild(QCheckBox, 'outlierCheckbox')
+        # Outlier removal threshold
+        self.outlierThreshold = self.findChild(QDoubleSpinBox, 'outlierThreshold')
         # Resizing width
         self.resizeWidth = self.findChild(QSpinBox, 'resizeWidth')
         # Resizing height
@@ -92,6 +97,8 @@ class Gui(QMainWindow):
             vid2photogrammetry.denoiseFrames(self.outFolderText.text(), self.denoiseStrength.value())
         if self.duplicateCheckbox.isChecked():
             vid2photogrammetry.deleteNearDuplicates(self.outFolderText.text(), self.duplicateThreshold.value())
+        if self.outlierCheckbox.isChecked():
+            vid2photogrammetry.deleteOutliers(self.outFolderText.text(), self.outlierThreshold.value())
         print("============================================================")
         print("Processing complete")
 
