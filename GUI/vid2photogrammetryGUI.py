@@ -86,7 +86,13 @@ class Gui(QMainWindow):
         self.outFolderText.setText(fname+'/')
 
     def startProcessing(self):
-        # Run the vid2photogrammetry extraction function
+        # Check the output folder is empty
+        if len(os.listdir(self.outFolderText.text())) != 0:
+            print("ERR: Output folder must be empty!")
+            print("============================================================")
+            print("Processing was not completed")
+            return
+        # Extract frames from the input video
         vid2photogrammetry.extractFrames(self.inFileText.text(), self.outFolderText.text(), self.outNameText.text(), str(self.outExtensionComboBox.currentText()), self.outFrameCount.value())
         # If resizing enabled, run vid2photogrammetry resizing function
         if self.resizeCheckbox.isChecked():
