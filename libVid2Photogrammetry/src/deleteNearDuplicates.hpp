@@ -8,28 +8,6 @@
 
 #include "commonFunctions.hpp"
 
-// Takes a folder path and threshold as input, and returns a vector of strings containing the paths of images which are similar enough to at least 1 other image in the folder
-std::vector<std::string> getSimilarImagePaths(std::string framesFolder, float threshold){
-    std::cout << "Using HISTCMP_BHATTACHARYYA" << std::endl;
-    std::vector<std::string> files = getFilepathsInFolder(framesFolder);
-    std::vector<std::string> similarFrames; // Stores the frames which are similar enough to at least one other frame to be kept
-    std::unordered_map<std::string, bool> alreadyCompared; // Used to avoid doing the same comparison (or the same comparison the other way around) multiple times.
-    for(auto fp : files){
-        cv::Mat fp1hist = calcHistNorm(cv::imread(fp));
-        alreadyCompared[fp+fp] = true;
-        for(auto fp2 : files){
-            if(!(alreadyCompared[fp+fp2]) && !(alreadyCompared[fp2+fp])){
-                float unSimilarity = cv::compareHist(fp1hist, calcHistNorm(cv::imread(fp2)), cv::HISTCMP_BHATTACHARYYA);
-                if((unSimilarity < threshold) && (std::find(similarFrames.begin(), similarFrames.end(), fp2) == similarFrames.end())){
-                    similarFrames.push_back(fp2);
-                }
-                alreadyCompared[fp+fp2] = true;
-            }
-        }
-    }
-    return similarFrames;
-}
-
 void deleteNearDuplicates(std::string framesFolder, float threshold){
     std::cout << "==================================================" << std::endl;
     std::cout << "Removing (near) duplicate frames...." << std::endl;
