@@ -49,5 +49,6 @@ void MainWindow::startProcessing(){
     }
 
     // Extract frames from the input video
+    extractFrames(ui->inFileText->text().toStdString(), ui->outFolderText->text().toStdString(), ui->outNameText->text().toStdString(), ui->outExtensionComboBox->currentText().toStdString(), ui->outFrameCount->value());
     // Run each of the optional functions if enabled
 }
