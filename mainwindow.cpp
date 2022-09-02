@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Vid2Photogrammetry");
+    setWindowIcon(QIcon(":/icon.ico"));
     connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessing);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);

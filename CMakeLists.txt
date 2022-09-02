@@ -17,7 +17,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 add_executable(vid2photogrammetry
    mainwindow.ui
    mainwindow.cpp
-   main.cpp)
+   main.cpp
+   resources.qrc)
    
 target_link_libraries(vid2photogrammetry
    Qt5::Widgets
