@@ -1,0 +1,6 @@
+#include "extractFrames.hpp"
+#include "resizeFrames.hpp"
+#include "detectBlur.hpp"
+#include "denoiseFrames.hpp"
+#include "deleteNearDuplicates.hpp"
+#include "deleteOutliers.hpp"
