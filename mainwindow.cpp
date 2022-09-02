@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessing);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);
+    ui->outExtensionComboBox->addItem("png");
+    ui->outExtensionComboBox->addItem("jpg");
+    ui->outExtensionComboBox->addItem("bmp");
 }
 
 MainWindow::~MainWindow()
@@ -45,7 +48,6 @@ void MainWindow::startProcessing(){
         return;
     }
 
-    
     // Extract frames from the input video
     // Run each of the optional functions if enabled
 }
