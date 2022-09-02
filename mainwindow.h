@@ -15,6 +15,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void startProcessing();
+    void inFileToolClicked();
+    void outFolderToolClicked();
+
 private:
     Ui::MainWindow *ui;
 };
