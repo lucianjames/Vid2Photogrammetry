@@ -14,4 +14,29 @@ A-level computer science project
 * Easy to use GUI
 
 ## Compiling:
-This section needs to be re-done since I moved away from using python to manage the Qt GUI
+### Arch Linux:
+1. Install deps and tools.
+```pacman -Syu
+pacman -S git cmake opencv qt5
+```
+2. Clone repository, create build folder
+```
+git clone https://github.com/LJ3D/Vid2Photogrammetry.git
+cd Vid2Photogrammetry 
+mkdir build
+cd build
+```
+3. Run cmake
+```
+cmake ..
+cmake --build .
+```
+### Other distros:
+Just swap out the package manager and it should be fine
+
+### Windows:
+Why? Just use the pre-compiled binary, installing and setting up opencv, qt5, cmake, and git takes too long.
+If you really want to compile it on windows though, the steps are pretty much the same but you have to mess around adding opencv and qt5 to the list of environment variables. Also have fun figuring out the DLL files :) (hint: windeployqt.exe)
+
+### Mac:
+lmao
