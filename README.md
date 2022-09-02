@@ -2,7 +2,7 @@
 Software to process videos into an image sequence optimised for use with photogrammetry software. 
 A-level computer science project
 
-## Proposed features:
+## Features:
 * Extract n frames from any input video into an output folder
 * Logical naming of output frames
 * Resizing extracted frames
