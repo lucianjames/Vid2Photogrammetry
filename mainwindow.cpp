@@ -36,9 +36,10 @@ void MainWindow::outFolderToolClicked(){
 
 void MainWindow::startProcessing(){
     // Check that the output folder is empty
-    std::filesystem::path outFolder(ui->outFolderText->text().toStdString());
-    if(std::filesystem::exists(outFolder) && std::filesystem::is_directory(outFolder)){
-        if(std::filesystem::directory_iterator(outFolder) != std::filesystem::directory_iterator()){
+    // The output folder must be empty before frames are extracted to it, because the program will modify all files in the folder
+    std::filesystem::path outFolder(ui->outFolderText->text().toStdString()); // Convert QString to std::filesystem::path
+    if(std::filesystem::exists(outFolder) && std::filesystem::is_directory(outFolder)){ // Check if the path exists and is a directory
+        if(std::filesystem::directory_iterator(outFolder) != std::filesystem::directory_iterator()){ // Check if the directory is empty
             QMessageBox::warning(this, "Output folder not empty", "The output folder is not empty. Please choose an empty output folder.");
             return;
         }
@@ -51,4 +52,21 @@ void MainWindow::startProcessing(){
     // Extract frames from the input video
     extractFrames(ui->inFileText->text().toStdString(), ui->outFolderText->text().toStdString(), ui->outNameText->text().toStdString(), ui->outExtensionComboBox->currentText().toStdString(), ui->outFrameCount->value());
     // Run each of the optional functions if enabled
+    if(ui->resizeCheckbox->isChecked()){ // Resizes the frames to the specified dimensions
+        resizeFrames(ui->outFolderText->text().toStdString(), ui->resizeWidth->value(), ui->resizeHeight->value());
+    }
+    if(ui->blurCheckbox->isChecked()){ // Detects and removes blurry frames based on user-defined threshold
+        removeBlurryFrames(ui->outFolderText->text().toStdString(), ui->blurThreshold->value());
+    }
+    if(ui->denoiseCheckbox->isChecked()){ // Denoises the frames using a user-defined strength parameter
+        denoiseFrames(ui->outFolderText->text().toStdString(), ui->denoiseStrength->value());
+    }
+    if(ui->duplicateCheckbox->isChecked()){ // Removes duplicate frames based on user-defined threshold
+        deleteNearDuplicates(ui->outFolderText->text().toStdString(), ui->duplicateThreshold->value());
+    }
+    if(ui->outlierCheckbox->isChecked()){ // Removes outlier frames based on user-defined threshold
+        deleteOutliers(ui->outFolderText->text().toStdString(), ui->outlierThreshold->value());
+    }
+    // Display a message box to indicate that the processing is complete
+    QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
 }
