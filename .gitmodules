@@ -1,3 +1,0 @@
-[submodule "libVid2Photogrammetry/pybind11"]
-	path = libVid2Photogrammetry/pybind11
-	url = https://github.com/pybind/pybind11.git
