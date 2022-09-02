@@ -7,31 +7,28 @@
 
 #include "vid2Photogrammetry/vid2photogrammetry.hpp"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){ // Constructor
     ui->setupUi(this);
     setWindowTitle("Vid2Photogrammetry");
     setWindowIcon(QIcon(":/icon.ico"));
     connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessing);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);
+    // Pupulate the output extension combo box:
     ui->outExtensionComboBox->addItem("png");
     ui->outExtensionComboBox->addItem("jpg");
     ui->outExtensionComboBox->addItem("bmp");
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){ // Destructor
     delete ui;
 }
 
-void MainWindow::inFileToolClicked(){
+void MainWindow::inFileToolClicked(){ // If the user clicks the "..." button next to the input file path, open a file dialog to select a file
     ui->inFileText->setText(QFileDialog::getOpenFileName());
 }
 
-void MainWindow::outFolderToolClicked(){
+void MainWindow::outFolderToolClicked(){ // If the user clicks the "..." button next to the output folder path, open a file dialog to select a folder
     ui->outFolderText->setText(QFileDialog::getExistingDirectory());
 }
 
@@ -49,7 +46,6 @@ void MainWindow::startProcessing(){
         QMessageBox::warning(this, "Output folder not found", "The output folder does not exist. Please choose an existing output folder.");
         return;
     }
-
     // Extract frames from the input video
     extractFrames(ui->inFileText->text().toStdString(), ui->outFolderText->text().toStdString(), ui->outNameText->text().toStdString(), ui->outExtensionComboBox->currentText().toStdString(), ui->outFrameCount->value());
     // Run each of the optional functions if enabled
