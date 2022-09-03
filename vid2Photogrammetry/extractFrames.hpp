@@ -3,8 +3,7 @@
 #include <string>
 #include <filesystem>
 
-template <class T>
-int numDigits(T number){ // Gets the number of digits in a number (for example, inputting 123 returns 3)
+int numDigits(int number){ // Gets the number of digits in an int (for example, inputting 123 returns 3)
     int digits = 0;
     while(number){
         number /= 10;
