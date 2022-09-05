@@ -47,7 +47,7 @@ void MainWindow::startProcessing(){
         return;
     }
     // Extract frames from the input video
-    extractFrames(ui->inFileText->text().toStdString(), ui->outFolderText->text().toStdString(), ui->outNameText->text().toStdString(), ui->outExtensionComboBox->currentText().toStdString(), ui->outFrameCount->value());
+    extractFrames(ui->inFileText->text().toStdString(), ui->outFolderText->text().toStdString(), ui->outNameText->text().toStdString(), ui->outExtensionComboBox->currentText().toStdString(), ui->outFrameCount->value(), ui->flipCheckBox->isChecked());
     // Run each of the optional functions if enabled
     if(ui->resizeCheckbox->isChecked()){ // Resizes the frames to the specified dimensions
         resizeFrames(ui->outFolderText->text().toStdString(), ui->resizeWidth->value(), ui->resizeHeight->value());

@@ -12,7 +12,7 @@ int numDigits(int number){ // Gets the number of digits in an int (for example, 
     return digits;
 }
 
-void extractFrames(std::string inputPath, std::string outputPath, std::string outputName, std::string outputExtension, int frameCount){
+void extractFrames(std::string inputPath, std::string outputPath, std::string outputName, std::string outputExtension, int frameCount, bool flip){
     std::cout << "==================================================" << std::endl;
     std::cout << "Starting frame extraction...." << std::endl;
     std::cout << "Performing validation..." << std::endl;
@@ -73,6 +73,10 @@ void extractFrames(std::string inputPath, std::string outputPath, std::string ou
         cap.read(temp);
         // Write the frame to the output file
         // Handle any errors that may occur
+        if(flip){
+            cv::flip(temp, temp, 0);
+            cv::flip(temp, temp, 1);
+        }
         try{
             cv::imwrite(outputPath + "/" + outputName + std::to_string(i) + "." + outputExtension, temp);
         }

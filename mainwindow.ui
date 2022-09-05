@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>514</width>
-    <height>461</height>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,36 +17,63 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="15" column="0" colspan="3">
-       <widget class="QPushButton" name="goButton">
+      <item row="11" column="0">
+       <widget class="QCheckBox" name="denoiseCheckbox">
         <property name="text">
-         <string>Go!</string>
+         <string>Enable image denoising</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="infileLabel">
+      <item row="1" column="0">
+       <widget class="QLabel" name="outFolderLabel">
         <property name="text">
-         <string>Input file path:</string>
+         <string>Output folder path:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QCheckBox" name="resizeCheckbox">
+        <property name="text">
+         <string>Enable image resizing</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="outFolderTool">
+        <property name="text">
+         <string>...</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="QLineEdit" name="inFileText"/>
       </item>
-      <item row="7" column="0">
-       <widget class="QCheckBox" name="blurCheckbox">
+      <item row="12" column="0">
+       <widget class="QCheckBox" name="duplicateCheckbox">
         <property name="text">
-         <string>Delete blurry images</string>
+         <string>Enable duplicate removal</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="0">
-       <widget class="QCheckBox" name="denoiseCheckbox">
+      <item row="16" column="0" colspan="3">
+       <widget class="QPushButton" name="goButton">
         <property name="text">
-         <string>Enable image denoising</string>
+         <string>Go!</string>
         </property>
        </widget>
+      </item>
+      <item row="6" column="1" colspan="2">
+       <widget class="QComboBox" name="outExtensionComboBox"/>
+      </item>
+      <item row="13" column="0">
+       <widget class="QCheckBox" name="outlierCheckbox">
+        <property name="text">
+         <string>Enable outlier removal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QLineEdit" name="outNameText"/>
       </item>
       <item row="0" column="2">
        <widget class="QToolButton" name="inFileTool">
@@ -55,48 +82,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="outFolderText"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="outNameLabel">
+      <item row="6" column="0">
+       <widget class="QLabel" name="outExtensionLabel">
         <property name="text">
-         <string>Output name:</string>
+         <string>Output extension:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1" colspan="2">
-       <widget class="QComboBox" name="outExtensionComboBox"/>
-      </item>
-      <item row="11" column="0">
-       <widget class="QCheckBox" name="duplicateCheckbox">
-        <property name="text">
-         <string>Enable duplicate removal</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="denoiseStrengthLabel">
-          <property name="text">
-           <string>Denoise strength:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="denoiseStrength">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>7</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="13" column="1" colspan="2">
+      <item row="14" column="1" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="resizeWidthLabel">
@@ -138,14 +131,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="outFrameCountLabel">
-        <property name="text">
-         <string>Output frame count:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1" colspan="2">
+      <item row="8" column="1" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QLabel" name="blurThresholdLabel">
@@ -166,7 +152,7 @@
         </item>
        </layout>
       </item>
-      <item row="11" column="1" colspan="2">
+      <item row="12" column="1" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="duplicateRemovalThresholdLabel">
@@ -190,45 +176,56 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="2">
-       <widget class="QToolButton" name="outFolderTool">
+      <item row="7" column="0">
+       <widget class="QCheckBox" name="flipCheckBox">
         <property name="text">
-         <string>...</string>
+         <string>Flip extracted frames</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="outFolderLabel">
+      <item row="5" column="0">
+       <widget class="QLabel" name="outFrameCountLabel">
         <property name="text">
-         <string>Output folder path:</string>
+         <string>Output frame count:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="outExtensionLabel">
+      <item row="8" column="0">
+       <widget class="QCheckBox" name="blurCheckbox">
         <property name="text">
-         <string>Output extension:</string>
+         <string>Delete blurry images</string>
         </property>
        </widget>
       </item>
-      <item row="13" column="0">
-       <widget class="QCheckBox" name="resizeCheckbox">
+      <item row="11" column="1" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="denoiseStrengthLabel">
+          <property name="text">
+           <string>Denoise strength:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="denoiseStrength">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>7</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="outNameLabel">
         <property name="text">
-         <string>Enable image resizing</string>
+         <string>Output name:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" colspan="2">
-       <widget class="QLineEdit" name="outNameText"/>
-      </item>
-      <item row="12" column="0">
-       <widget class="QCheckBox" name="outlierCheckbox">
-        <property name="text">
-         <string>Enable outlier removal</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1" colspan="2">
+      <item row="13" column="1" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="outlierRemovalThresholdLabel">
@@ -251,6 +248,16 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="infileLabel">
+        <property name="text">
+         <string>Input file path:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="outFolderText"/>
       </item>
      </layout>
     </item>
