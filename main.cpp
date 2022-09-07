@@ -3,9 +3,7 @@
 
 #include "mainwindow.h"
 
-int main(int argc, char *argv[]){
-    QApplication a(argc, argv);
-    qApp->setStyle(QStyleFactory::create("fusion"));
+QPalette createTheme(){ // Returns a nice looking theme for the application
     QPalette palette;
     palette.setColor(QPalette::Window, QColor(53,53,53));
     palette.setColor(QPalette::WindowText, Qt::white);
@@ -19,7 +17,13 @@ int main(int argc, char *argv[]){
     palette.setColor(QPalette::BrightText, Qt::red);
     palette.setColor(QPalette::Highlight, QColor(142,45,197).lighter());
     palette.setColor(QPalette::HighlightedText, Qt::black);
-    qApp->setPalette(palette);
+    return palette;
+}
+
+int main(int argc, char *argv[]){
+    QApplication a(argc, argv);
+    qApp->setStyle(QStyleFactory::create("fusion"));
+    qApp->setPalette(createTheme());
     MainWindow w;
     w.show();
     return a.exec();
