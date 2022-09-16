@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessing);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);
-    // Pupulate the output extension combo box:
+    // Populate the output extension combo box:
     ui->outExtensionComboBox->addItem("png");
     ui->outExtensionComboBox->addItem("jpg");
     ui->outExtensionComboBox->addItem("bmp");
@@ -55,19 +55,29 @@ void MainWindow::startProcessing(){
                   ui->flipCheckBox->isChecked());
     // Run each of the optional functions if enabled
     if(ui->resizeCheckbox->isChecked()){ // Resizes the frames to the specified dimensions
-        resizeFrames(ui->outFolderText->text().toStdString(), ui->resizeWidth->value(), ui->resizeHeight->value());
+        resizeFrames(ui->outFolderText->text().toStdString(), 
+                     ui->resizeWidth->value(), 
+                     ui->resizeHeight->value());
     }
+    // Blurry frame removal:
     if(ui->blurCheckbox->isChecked()){ // Detects and removes blurry frames based on user-defined threshold
-        removeBlurryFrames(ui->outFolderText->text().toStdString(), ui->blurThreshold->value());
+        removeBlurryFrames(ui->outFolderText->text().toStdString(), 
+                           ui->blurThreshold->value());
     }
+    // Image denoising:
     if(ui->denoiseCheckbox->isChecked()){ // Denoises the frames using a user-defined strength parameter
-        denoiseFrames(ui->outFolderText->text().toStdString(), ui->denoiseStrength->value());
+        denoiseFrames(ui->outFolderText->text().toStdString(), 
+                      ui->denoiseStrength->value());
     }
+    // Duplicate frame removal:
     if(ui->duplicateCheckbox->isChecked()){ // Removes duplicate frames based on user-defined threshold
-        deleteNearDuplicates(ui->outFolderText->text().toStdString(), ui->duplicateThreshold->value());
+        deleteNearDuplicates(ui->outFolderText->text().toStdString(), 
+                             ui->duplicateThreshold->value());
     }
+    // Outlier frame removal:
     if(ui->outlierCheckbox->isChecked()){ // Removes outlier frames based on user-defined threshold
-        deleteOutliers(ui->outFolderText->text().toStdString(), ui->outlierThreshold->value());
+        deleteOutliers(ui->outFolderText->text().toStdString(), 
+                       ui->outlierThreshold->value());
     }
     // Display a message box to indicate that the processing is complete
     QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
