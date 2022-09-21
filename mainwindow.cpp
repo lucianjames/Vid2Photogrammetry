@@ -1,4 +1,6 @@
 #include <qfiledialog.h>
+#include <QFuture>
+#include <QtConcurrent>
 #include <qmessagebox.h>
 #include <filesystem>
 
@@ -11,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     setWindowTitle("Vid2Photogrammetry");
     setWindowIcon(QIcon(":/icon.ico"));
-    connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessing);
+    connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessingThread);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);
     // Populate the output extension combo box:
@@ -30,6 +32,10 @@ void MainWindow::inFileToolClicked(){ // If the user clicks the "..." button nex
 
 void MainWindow::outFolderToolClicked(){ // If the user clicks the "..." button next to the output folder path, open a file dialog to select a folder
     ui->outFolderText->setText(QFileDialog::getExistingDirectory());
+}
+
+void MainWindow::startProcessingThread(){
+    QFuture<void> future = QtConcurrent::run(this, &MainWindow::startProcessing);
 }
 
 void MainWindow::startProcessing(){

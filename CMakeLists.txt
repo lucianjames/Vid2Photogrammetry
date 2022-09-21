@@ -17,9 +17,10 @@ if(MSVC)
 set(CMAKE_CXX_FLAGS "/O2")
 endif(MSVC)
 
-find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets)
+find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Concurrent)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
+
 
 add_executable(vid2photogrammetry
    mainwindow.ui
@@ -30,6 +31,6 @@ add_executable(vid2photogrammetry
 
 target_link_libraries(vid2photogrammetry
    Qt5::Widgets
+   Qt5::Concurrent
    ${OpenCV_LIBS}
 )
-

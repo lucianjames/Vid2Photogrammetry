@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFuture>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,6 +16,7 @@ public:
     ~MainWindow();
 
 private slots: // Slots are functions that are called when a signal is emitted
+    void startProcessingThread();
     void startProcessing();
     void inFileToolClicked();
     void outFolderToolClicked();
