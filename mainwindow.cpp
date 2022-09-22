@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, &MainWindow::outFolderNotEmpty, this, &MainWindow::outFolderNotEmptyMessage);
     connect(this, &MainWindow::outFolderNotFound, this, &MainWindow::outFolderNotFoundMessage);
     connect(this, &MainWindow::processingComplete, this, &MainWindow::processingCompleteMessage);
-
+    connect(this, &MainWindow::processingThreadClosed, this, &MainWindow::setProcessRunningBoolFalse);
 
     // Populate the output extension combo box:
     ui->outExtensionComboBox->addItem("png");
@@ -49,7 +49,6 @@ void MainWindow::outFolderNotFoundMessage(){ // If the output folder is not foun
 }
 
 void MainWindow::processingCompleteMessage(){ // If the processing is complete, display a message box
-    this->processingThreadRunning = false;
     QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
 }
 
@@ -62,17 +61,23 @@ void MainWindow::startProcessingThread(){ // Run the processing function in a se
     }
 }
 
+void MainWindow::setProcessRunningBoolFalse(){
+    this->processingThreadRunning = false;
+}
+
 void MainWindow::startProcessing(){
     // Check that the output folder is empty
     // The output folder must be empty before frames are extracted to it, because the program will modify all files in the folder
     std::filesystem::path outFolder(ui->outFolderText->text().toStdString()); // Convert QString to std::filesystem::path
     if(std::filesystem::exists(outFolder) && std::filesystem::is_directory(outFolder)){ // Check if the path exists and is a directory
         if(std::filesystem::directory_iterator(outFolder) != std::filesystem::directory_iterator()){ // Check if the directory is empty
+            emit processingThreadClosed();
             emit outFolderNotEmpty();
             return;
         }
     }
     else{
+        emit processingThreadClosed();
         emit outFolderNotFound();
         return;
     }
@@ -110,5 +115,6 @@ void MainWindow::startProcessing(){
                        ui->outlierThreshold->value());
     }
     // Display a message box to indicate that the processing is complete
+    emit processingThreadClosed();
     emit processingComplete();
 }
