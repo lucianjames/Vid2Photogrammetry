@@ -16,6 +16,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->goButton, &QPushButton::released, this, &MainWindow::startProcessingThread);
     connect(ui->inFileTool, &QPushButton::released, this, &MainWindow::inFileToolClicked);
     connect(ui->outFolderTool, &QPushButton::released, this, &MainWindow::outFolderToolClicked);
+    // Connect the signals to the slots, they are called when the signal is emitted from the worker thread
+    connect(this, &MainWindow::outFolderNotEmpty, this, &MainWindow::outFolderNotEmptyMessage);
+    connect(this, &MainWindow::outFolderNotFound, this, &MainWindow::outFolderNotFoundMessage);
+    connect(this, &MainWindow::processingComplete, this, &MainWindow::processingCompleteMessage);
+
+
     // Populate the output extension combo box:
     ui->outExtensionComboBox->addItem("png");
     ui->outExtensionComboBox->addItem("jpg");
@@ -34,6 +40,18 @@ void MainWindow::outFolderToolClicked(){ // If the user clicks the "..." button 
     ui->outFolderText->setText(QFileDialog::getExistingDirectory());
 }
 
+void MainWindow::outFolderNotEmptyMessage(){ // If the output folder is not empty, display a message box
+    QMessageBox::warning(this, "Output folder not empty", "The output folder is not empty. Please choose an empty output folder.");
+}
+
+void MainWindow::outFolderNotFoundMessage(){ // If the output folder is not found, display a message box
+    QMessageBox::warning(this, "Output folder not found", "The output folder does not exist. Please choose an existing output folder.");
+}
+
+void MainWindow::processingCompleteMessage(){ // If the processing is complete, display a message box
+    QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
+}
+
 void MainWindow::startProcessingThread(){
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::startProcessing);
 }
@@ -44,12 +62,12 @@ void MainWindow::startProcessing(){
     std::filesystem::path outFolder(ui->outFolderText->text().toStdString()); // Convert QString to std::filesystem::path
     if(std::filesystem::exists(outFolder) && std::filesystem::is_directory(outFolder)){ // Check if the path exists and is a directory
         if(std::filesystem::directory_iterator(outFolder) != std::filesystem::directory_iterator()){ // Check if the directory is empty
-            QMessageBox::warning(this, "Output folder not empty", "The output folder is not empty. Please choose an empty output folder.");
+            emit outFolderNotEmpty();
             return;
         }
     }
     else{
-        QMessageBox::warning(this, "Output folder not found", "The output folder does not exist. Please choose an existing output folder.");
+        emit outFolderNotFound();
         return;
     }
     // Extract frames from the input video
@@ -86,5 +104,5 @@ void MainWindow::startProcessing(){
                        ui->outlierThreshold->value());
     }
     // Display a message box to indicate that the processing is complete
-    QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
+    emit processingComplete();
 }

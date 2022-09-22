@@ -19,6 +19,14 @@ private slots: // Slots are functions that are called when a signal is emitted
     void startProcessing();
     void inFileToolClicked();
     void outFolderToolClicked();
+    void outFolderNotEmptyMessage();
+    void outFolderNotFoundMessage();
+    void processingCompleteMessage();
+
+signals:
+    void outFolderNotEmpty();
+    void outFolderNotFound();
+    void processingComplete();
 
 private:
     Ui::MainWindow *ui;
