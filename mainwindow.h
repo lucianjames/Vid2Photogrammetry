@@ -30,5 +30,6 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+    bool processingThreadRunning = false;
 };
 #endif // MAINWINDOW_H

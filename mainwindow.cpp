@@ -49,11 +49,17 @@ void MainWindow::outFolderNotFoundMessage(){ // If the output folder is not foun
 }
 
 void MainWindow::processingCompleteMessage(){ // If the processing is complete, display a message box
+    this->processingThreadRunning = false;
     QMessageBox::information(this, "Processing complete", "Processing complete. Output frames can be found in the output folder.");
 }
 
-void MainWindow::startProcessingThread(){
-    QFuture<void> future = QtConcurrent::run(this, &MainWindow::startProcessing);
+void MainWindow::startProcessingThread(){ // Run the processing function in a separate thread
+    if(this->processingThreadRunning == false){
+        this->processingThreadRunning = true;
+        QFuture<void> future = QtConcurrent::run(this, &MainWindow::startProcessing);
+    }else{
+        QMessageBox::warning(this, "Processing already running", "Processing is already running. Please wait for the current processing to complete.");
+    }
 }
 
 void MainWindow::startProcessing(){
