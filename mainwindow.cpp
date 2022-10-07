@@ -26,6 +26,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->outExtensionComboBox->addItem("png");
     ui->outExtensionComboBox->addItem("jpg");
     ui->outExtensionComboBox->addItem("bmp");
+    
+    // Set up tooltips to make program idiot-proof:
+    ui->inFileTool->setToolTip("Select the input video file");
+    ui->outFolderTool->setToolTip("Select the output folder");
+    ui->outNameText->setToolTip("Enter the output file name");
+    ui->outExtensionComboBox->setToolTip("Select the output file extension");
+    ui->flipCheckBox->setToolTip("Check to flip the image vertically, use this if the image is upside down");
+    ui->blurCheckbox->setToolTip("Delete images that are too blurry");
+    ui->blurThreshold->setToolTip("Set the threshold for blur detection, image blurryness is quantified by the variance of the Laplacian filter. Low blur value = blurrier image");
+    ui->denoiseCheckbox->setToolTip("Apply a denoising filter to the images, useful for low-light smartphone video");
+    ui->denoiseStrength->setToolTip("Set the threshold for denoising, higher values remove more noise");
+    ui->duplicateCheckbox->setToolTip("Delete duplicate images, works fine when there are two images which are duplicate but may fail if there are more than two similar images");
+    ui->duplicateThreshold->setToolTip("Set the threshold for duplicate image detection, higher values will delete more images");
+    ui->outlierCheckbox->setToolTip("Delete outlier images, useful for removing images which arent of any use for photogrammetry (for example if the camera has been covered accidentally by a finger)");
+    ui->outlierThreshold->setToolTip("Set the threshold for outlier image detection, higher values will delete more images");
+    ui->resizeCheckbox->setToolTip("Resize the images (usually) to a smaller size, useful to reduce the amount of data to process");
+    ui->resizeWidth->setToolTip("Set the width of the resized image");
+    ui->resizeHeight->setToolTip("Set the height of the resized image");
+    ui->goButton->setToolTip("Start processing");
 }
 
 MainWindow::~MainWindow(){ // Destructor
