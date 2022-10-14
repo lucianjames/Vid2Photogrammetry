@@ -35,8 +35,7 @@ cmake --build .
 Just swap out the package manager and it should be fine
 
 ### Windows:
-Why? Just use the pre-compiled binary, installing and setting up opencv, qt5, cmake, and git takes too long.
-If you really want to compile it on windows though, the steps are pretty much the same but you have to mess around adding opencv and qt5 to the list of environment variables. Also have fun figuring out the DLL files :) (hint: windeployqt.exe)
+Its not worth it
 
 ### Mac:
 lmao
